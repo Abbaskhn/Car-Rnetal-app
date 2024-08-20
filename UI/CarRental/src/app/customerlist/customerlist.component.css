@@ -1,0 +1,68 @@
+/* General Table Styling */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 18px;
+    text-align: left;
+  }
+  
+  /* Table Header Styling */
+  .data-table thead {
+    background-color: #f2f2f2;
+  }
+  
+  .data-table th {
+    padding: 12px;
+    border-bottom: 2px solid #dddddd;
+  }
+  
+  /* Table Body and Rows Styling */
+  .data-table tbody .data-row {
+    background-color: #ffffff;
+    border-bottom: 1px solid #dddddd;
+    transition: background-color 0.3s ease;
+  }
+  
+  .data-table tbody .data-row:nth-of-type(even) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Row Hover Effect */
+  .data-table tbody .data-row:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Table Cell Styling */
+  .data-table td {
+    padding: 12px;
+  }
+  
+  /* Button Styling */
+  .button1 {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .button1:hover {
+    background-color: #c9302c;
+  }
+  
+  .button3 {
+    background-color: #5bc0de;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  .button3:hover {
+    background-color: #31b0d5;
+  }

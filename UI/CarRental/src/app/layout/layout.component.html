@@ -1,0 +1,51 @@
+<mat-toolbar color="primary">
+  <button mat-icon-button (click)="sidenav.toggle()">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>Welcome to the Car Rental App</span>
+</mat-toolbar>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav class="mat-elevation-z8" mode="side" opened>
+    <h3 class="nav">Rental Car App</h3>
+    <button mat-button class="menu-button" (click)="vendcust()">
+      <mat-icon>dashboard</mat-icon>
+      <span>Dashboard</span>
+    </button> 
+    <button mat-button class="menu-button" (click)="Car()">
+      <mat-icon>directions_car</mat-icon>
+      <span>Car</span>
+    </button>
+
+    <button mat-button class="menu-button" (click)="Booking()">
+      <mat-icon>event</mat-icon>
+      <span>Booking</span>
+    </button>
+
+    <button mat-button class="menu-button" (click)="Bookinglist()">
+      <mat-icon>list_alt</mat-icon>
+      <span>Booking List</span>
+    </button>
+
+    <button mat-button class="menu-button" (click)="Vendor()">
+      <mat-icon>business</mat-icon>
+      <span>Vendor</span>
+    </button>
+
+    <button mat-button class="menu-button" (click)="Customer()">
+      <mat-icon>person</mat-icon>
+      <span>Customer List</span>
+    </button>
+
+    <button mat-button class="menu-button" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Log Out</span>
+    </button>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <div class="content mat-elevation-z8">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

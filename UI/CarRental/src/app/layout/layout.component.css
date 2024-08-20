@@ -1,0 +1,117 @@
+/* Style for the Toolbar */
+.mat-toolbar {
+  background: linear-gradient(135deg, #a8d8ba, #0d9714);
+  padding: 5px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 20px;
+  color: #ffffff;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000; /* Ensure it is above other content */
+}
+
+/* Style for the Sidenav */
+.mat-sidenav {
+  width: 250px;
+  background: linear-gradient(135deg, #838182, #80ced6);
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  position: fixed;
+  top: 64px; /* Adjust based on the height of your toolbar */
+  bottom: 0;
+  z-index: 1000; /* Ensure it is above other content */
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto; /* Allow vertical scrolling within the sidenav if needed */
+}
+
+.mat-sidenav .menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: #000;
+  background-color: cornsilk;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 10px 20px;
+  font-size: 18px;
+  width: calc(100% - 40px); /* Ensure all buttons have the same width */
+  box-sizing: border-box; /* Ensure padding and borders are included in the width */
+}
+
+.mat-sidenav .menu-button mat-icon {
+  margin-right: 8px;
+  color: #008080;
+}
+
+.mat-sidenav .menu-button:hover {
+  background-color: #f7efef;
+  color: gray;
+}
+
+.mat-sidenav h3.nav {
+  text-align: center;
+  justify-content: center;
+  background-color: rgb(216, 154, 154);
+  margin: 0;
+  padding: 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+/* Style for the Sidenav Container */
+.sidenav-container {
+  display: flex;
+  height: 100vh; /* Full height of the viewport */
+  margin-top: 64px; /* Adjust based on the height of your toolbar */
+}
+
+/* Style for the Sidenav Content */
+.mat-sidenav-content {
+  flex-grow: 1; /* Allow the content area to grow and take up remaining space */
+  overflow-y: auto; /* Enable vertical scrolling for the content area */
+  padding: 20px;
+  background-color: #f4f4f4;
+}
+
+/* Style for the Content Area */
+.content {
+  background: #ffffff;
+  border-radius: 10px;
+}
+
+/* Style for the Toggle Button */
+.toggle-button-row {
+  position: fixed;
+  top: 8px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: #f7efef;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 1001;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-button-row mat-icon {
+  font-size: 24px;
+  color: #008080;
+}
+
+/* Style for the Loading Message */
+.loading-message {
+  text-align: center;
+  font-size: 18px;
+  color: #ffffff; /* Ensure text is visible over background */
+  background: rgba(0, 0, 0, 0.5); /* Slight background for contrast */
+  padding: 10px;
+  border-radius: 5px;
+}

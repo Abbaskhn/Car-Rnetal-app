@@ -1,0 +1,16 @@
+<form id="payment-form" (submit)="checkout($event)">
+    <div class="form-row">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" required>
+    </div>
+    <div class="form-row">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="form-row">
+      <label for="card-element">Credit or Debit Card</label>
+      <div id="card-element"></div>
+    </div>
+    <button id="submit" type="submit">Pay</button>
+    <div id="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+  </form>

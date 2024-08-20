@@ -1,0 +1,35 @@
+<table class="data-table">
+    <thead>
+      <tr>
+        <th>Id</th>     
+        <th>Name</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Total Amount</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+      <ng-container >
+        @for (st of booking; track $index) {
+        <tr class="data-row">
+          <td>{{ st.id }}</td>
+          <td>{{ st.name }}</td>
+          <td>{{ st.email }}</td>
+          <td>{{ st.address }}</td>
+          <td>{{ st.startDate }}</td>
+          <td>{{ st.endDate }}</td>
+         
+          <td>{{st.totalAmount}}</td>
+
+          <td>
+            <button (click)="delete(st.id)" class="button1"> Delete</button>
+         
+            <!-- <button (click)="showDetails(st)" class="button3"> View</button> -->
+          </td>
+        </tr>}
+  </ng-container>
+    </tbody>
+  </table>

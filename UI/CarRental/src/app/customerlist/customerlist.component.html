@@ -1,0 +1,28 @@
+<table class="data-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Address</th>
+        <th>Phone</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container >
+        @for (st of customer; track $index) {
+        <tr class="data-row">
+          <td>{{ st.name }}</td>
+          <td>{{ st.email }}</td>
+          <td>{{ st.address }}</td>
+          <td>{{ st.phone }}</td>
+          <td>
+
+            <button (click)="delete(st.id)" class="button1"> Delete</button>
+         
+            <!-- <button (click)="showDetails(st)" class="button3"> View</button> -->
+          </td>
+        </tr>}
+  </ng-container>
+    </tbody>
+  </table>
