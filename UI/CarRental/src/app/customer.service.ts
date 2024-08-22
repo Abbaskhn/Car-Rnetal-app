@@ -21,11 +21,11 @@ export class CustomerService {
   updateData(id: number, data: any): Observable<any> {
     return this.http.put(this.apiurl,data)
   }
-
   deleteData(id: number): Observable<any> {
-    return this.http.delete(this.apiurl)
-     
+    const url = `${this.apiurl}/${id}`; // Include the id in the URL for DELETE request
+    return this.http.delete(url);
   }
+ 
 
  
 }

@@ -6,14 +6,16 @@ form {
   background-color: #f9f9f9;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd; /* Light border to define form edges */
 }
 
 /* Form field styling */
 label {
   display: block;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 8px; /* Slightly increased margin for better spacing */
   color: #333;
+  font-size: 16px; /* Larger font size for labels */
 }
 
 input[type="text"],
@@ -21,28 +23,33 @@ input[type="email"],
 input[type="number"],
 input[matDatepicker] {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
+  padding: 12px; /* Increased padding for a more comfortable input area */
+  margin-bottom: 20px; /* Increased margin for better spacing between fields */
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 14px;
   box-sizing: border-box;
+  transition: border-color 0.3s; /* Smooth transition for focus effect */
 }
 
+/* Datepicker styling */
 mat-datepicker-toggle {
   margin-left: 5px;
+  color: #007bff; /* Matching color with button for consistency */
 }
 
+/* Submit button styling */
 button[type="submit"] {
   width: 100%;
-  padding: 12px;
+  padding: 14px; /* Increased padding for a more prominent button */
   background-color: #007bff;
   color: white;
   border: none;
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.2s; /* Smooth transition for background color and a slight scale effect */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for a 3D effect */
 }
 
 button[type="submit"]:disabled {
@@ -52,9 +59,10 @@ button[type="submit"]:disabled {
 
 /* Error message styling */
 .error-message {
-  color: red;
-  margin-top: 15px;
+  color: #d9534f; /* Slightly darker red for error messages */
+  margin-top: 10px;
   font-size: 14px;
+  font-weight: 500; /* Slightly bold font for better visibility */
 }
 
 /* Focus and hover states */
@@ -63,9 +71,11 @@ input[type="email"]:focus,
 input[type="number"]:focus,
 input[matDatepicker]:focus {
   border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Adding a subtle shadow on focus */
   outline: none;
 }
 
 button[type="submit"]:hover:not(:disabled) {
   background-color: #0056b3;
+  transform: scale(1.02); /* Slight scale effect on hover for interactivity */
 }

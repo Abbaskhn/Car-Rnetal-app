@@ -1,63 +1,69 @@
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    color: #333;
-}
-
+/* Welcome Container Styling */
 .welcome-container {
     text-align: center;
-    padding: 50px 20px;
-    background-color: #007bff;
-    color: white;
-}
-
-.welcome-container h1 {
-    margin: 0;
-    font-size: 2.5em;
-}
-
-.welcome-container p {
-    font-size: 1.2em;
-}
-
-/* Form Container */
-form {
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f5f5f5; /* Light gray background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+  }
+  
+  .welcome-container h1 {
+    font-size: 36px;
+    color: #333; /* Dark gray text */
+  }
+  
+  .welcome-container p {
+    font-size: 18px;
+    color: #666; /* Medium gray text */
+    margin-top: 8px;
+  }
+  
+  /* Form Styling */
+  form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px;
-}
-
-p {
-    font-size: 1.2em;
-    margin-bottom: 10px;
-}
-
-/* Radio Button Styles */
-label {
-    margin: 10px;
-    font-size: 1.1em;
-    cursor: pointer;
-}
-
-input[type="radio"] {
-    margin-right: 10px;
-}
-
-/* Form Sections */
-div {
-    margin: 20px;
+    margin: 20px auto;
     padding: 20px;
+    background-color: #ffffff; /* White background */
     border-radius: 8px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-    margin-top: 0;
-    font-size: 2em;
-    color: #007bff;
-}
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    width: 300px;
+  }
+  
+  form p {
+    font-size: 18px;
+    color: #333; /* Dark gray text */
+    margin-bottom: 16px;
+  }
+  
+  /* Radio Button Label Styling */
+  label {
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+    color: #333; /* Dark gray text */
+    margin-bottom: 8px;
+  }
+  
+  input[type="radio"] {
+    margin-right: 8px;
+  }
+  
+  /* Form Sections Styling */
+  h2 {
+    font-size: 24px;
+    color: #333; /* Dark gray text */
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  
+  /* Vendor and Customer Form Styling */
+  app-vendor, app-customer {
+    margin: 20px auto;
+    width: 100%;
+    max-width: 600px; /* Max width for form components */
+    padding: 20px;
+  }
+  

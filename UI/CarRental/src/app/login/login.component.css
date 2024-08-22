@@ -1,54 +1,89 @@
+/* Container Styling */
 .login-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #e0f7fa, #006064);
+  background-color: #2e2e2e; /* Light black background */
+  padding: 20px;
 }
 
+/* Card Styling */
 .login-form {
   width: 400px;
-  padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  background-color: #ffffff;
+  background-color: #424242; /* Light black card background */
+  color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Box shadow */
+  padding: 16px;
 }
 
-.login-form .mat-card-header {
+/* Header Styling */
+mat-card-header {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
-.login-form .mat-card-title {
+mat-card-title {
   font-size: 24px;
   font-weight: bold;
-  color: #006064;
+  color: #ffffff;
 }
 
-.login-form .full-width {
+/* Form Field Styling */
+.full-width {
   width: 100%;
 }
 
-.login-form .mat-form-field {
-  margin-bottom: 20px;
-}
-
-.login-form mat-card-actions {
-  display: flex;
-  justify-content: center;
-}
-
-.login-form button {
-  background: linear-gradient(135deg, #006064, #e0f7fa);
+mat-form-field {
   color: #ffffff;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background 0.3s ease;
 }
 
-.login-form button:hover {
-  background: linear-gradient(135deg, #e0f7fa, #006064);
+mat-form-field .mat-form-field-infix {
+  background-color: #616161; /* Input field background */
+  border-radius: 4px;
+}
+
+input[matInput] {
+  color: #ffffff;
+}
+
+.mat-select-value {
+  color: #ffffff;
+}
+
+.mat-form-field-label {
+  color: #bdbdbd; /* Label color */
+}
+
+/* Button Styling */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #ff6f00; /* Orange button */
+  color: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button[type="submit"]:hover {
+  background-color: #ff8f00;
+  transform: translateY(-2px);
+}
+
+/* Add subtle animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+mat-card {
+  animation: fadeIn 0.5s ease-in-out;
 }

@@ -1,21 +1,16 @@
-<html>
-    <h2>Vendor Form</h2>
-<body>
-    <form (ngSubmit)="onSubmit()" #form="ngForm">
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name" [(ngModel)]="formData.name" required><br><br>
-        
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" [(ngModel)]="formData.email" required><br><br>
-        
-        <label for="phone">Phone:</label><br>
-        <input type="tel" id="phone" name="phone" [(ngModel)]="formData.phone" required><br><br>
-        
-        <label for="company">Company:</label><br>
-        <input type="text" id="company" name="company" [(ngModel)]="formData.company"><br><br>
-        
-        <input type="submit" value="Submit">
-    </form>
+<form (ngSubmit)="onSubmit()" #form="ngForm" class="form-card">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" [(ngModel)]="formData.name" required><br><br>
     
-</body>
-</html>
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" [(ngModel)]="formData.email" required><br><br>
+    
+    <label for="phone">Phone:</label><br>
+    <input type="tel" id="phone" name="phone" [(ngModel)]="formData.phone" required><br><br>
+    
+    <label for="company">Company:</label><br>
+    <input type="text" id="company" name="company" [(ngModel)]="formData.company"><br><br>
+    
+    <input type="submit" value="Submit" class="submit-button">
+  </form>
+  

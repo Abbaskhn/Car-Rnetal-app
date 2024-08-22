@@ -3,44 +3,33 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Car } from './car';
 
+
+
 @Injectable({
   providedIn: 'root'
 })
 export class CarService {
-  private apiUrl="https://localhost:7066/api/Car";
+  private baseUrl = 'https://localhost:7066/api/Car'; // Adjust base URL as needed
+ 
   constructor(private http: HttpClient) {}
 
+  createCar(carData: FormData): Observable<any> {
+    return this.http.post<any>(this.baseUrl, carData);
+  }
+
   getCars(): Observable<Car[]> {
-    return this.http.get<Car[]>(this.apiUrl);
+    return this.http.get<Car[]>(this.baseUrl);
   }
 
-  getCarById(id: number): Observable<Car> {
-    return this.http.get<Car>(`${this.apiUrl}/${id}`);
+  getCar(id: number): Observable<Car> {
+    return this.http.get<any>(`${this.baseUrl}/${id}`);
   }
 
-  createCar(car: Car, imageFile: File): Observable<Car> {
-    const formData: FormData = new FormData();
-    formData.append('carName', car.carName);
-    formData.append('model', car.model);
-    formData.append('rentalprice', car.rentalprice.toString());
-    formData.append('imageFile', imageFile);
-
-    return this.http.post<Car>(this.apiUrl, formData);
-  }
-
-  updateCar(id: number, car: Car, imageFile: File): Observable<Car> {
-    const formData: FormData = new FormData();
-    formData.append('carName', car.carName);
-    formData.append('model', car.model);
-    formData.append('rentalprice', car.rentalprice.toString());
-    if (imageFile) {
-      formData.append('imageFile', imageFile);
-    }
-
-    return this.http.put<Car>(`${this.apiUrl}/${id}`, formData);
-  }
-
-  deleteCar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  
+updateCar(id: number, carData: FormData): Observable<any> {
+  return this.http.put<any>(`${this.baseUrl}/${id}`, carData);
+}
+  deleteCar(id: number): Observable<Car> {
+    return this.http.delete<any>(`${this.baseUrl}/${id}`);
   }
 }

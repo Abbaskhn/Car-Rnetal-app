@@ -1,6 +1,12 @@
 <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()">
   
-
+  <div>
+    <label for="carId">Car ID</label>
+    <input id="carId" formControlName="carId"type="text" required>
+    <div *ngIf="bookingForm.get('carId')?.invalid && bookingForm.get('carI')?.touched">
+      Name is required.
+    </div>
+  </div>
   <div>
     <label for="name">Name</label>
     <input id="name" formControlName="name" type="text" required>

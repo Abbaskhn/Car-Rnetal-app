@@ -1,4 +1,4 @@
-﻿using application.Dbcontext;
+using application.Dbcontext;
 using application.model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +8,7 @@ namespace application.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
     public class CustomerController : ControllerBase
     {
 

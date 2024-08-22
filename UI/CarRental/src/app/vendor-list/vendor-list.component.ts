@@ -20,6 +20,7 @@ export class VendorListComponent implements OnInit {
 
   ngOnInit(): void {
     this.GetAll(); 
+    this.setUserRoles();
   }
 
   GetAll(): void {

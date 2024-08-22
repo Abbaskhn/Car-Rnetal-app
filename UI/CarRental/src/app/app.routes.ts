@@ -26,7 +26,9 @@ export const routes: Routes = [
             { path: 'customerlist', component:CustomerlistComponent },
             { path: 'car', component: CarComponent },
             { path: 'createcar', component: CarCreateComponent },
+            { path: 'createcar/:id', component: CarCreateComponent },
             { path: 'booking', component: BookingComponent },
+            { path: 'book/:carId', component: BookingComponent },
             { path: 'bookinglist', component: BookinglistComponentt },
             { path: 'checkout', component: CheackoutComponent }
         ]

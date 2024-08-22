@@ -1,20 +1,20 @@
 import { Component, Inject, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MaterialModule } from '../MaterailModule/MaterialModule';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../auth.service';
-import { User } from '../INterface/User';
+
 @Component({
   selector: 'app-regester',
   standalone: true,
-  imports: [FormsModule,ReactiveFormsModule,MaterialModule],
+  imports: [FormsModule,ReactiveFormsModule,MaterialModule,RouterLink,RouterLinkActive],
   templateUrl: './regester.component.html',
   styleUrl: './regester.component.scss'
 })
 export class RegesterComponent implements OnInit {
   
     registrationForm!: FormGroup;
-    roles: string[] = ['Vendor'];
+   
     constructor(private fb: FormBuilder, private http:AuthService, private router: Router) { }
   
     ngOnInit(): void {
@@ -28,7 +28,7 @@ export class RegesterComponent implements OnInit {
         username: ['', Validators.required],
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required]],
-        role: ['', Validators.required],
+        roleId: ['', Validators.required],
       });
     }
   

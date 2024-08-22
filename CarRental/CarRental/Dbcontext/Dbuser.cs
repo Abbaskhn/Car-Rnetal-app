@@ -1,4 +1,4 @@
-﻿using application.model;
+using application.model;
 using Microsoft.EntityFrameworkCore;
 
 namespace application.Dbcontext
@@ -20,8 +20,14 @@ namespace application.Dbcontext
         {
             modelBuilder.Entity<User>().ToTable("users");
             modelBuilder.Entity<Vendor>().ToTable("Vendors");
+     
+      // Configuring the precision and scale for the TotalAmount column
+      modelBuilder.Entity<BookingCar>()
+                  .Property(b => b.TotalAmount)
+                  .HasColumnType("decimal(18, 2)");
 
-        }
+      base.OnModelCreating(modelBuilder);
+    }
     }
 
 }

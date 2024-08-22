@@ -31,10 +31,9 @@ export class VendorService {
 
   // New DELETE method for deleting data
   deleteData(id: number): Observable<any> {
-    return this.http.delete(this.apiUrl)
-     
+    const url = `${this.apiUrl}/${id}`; // Include the id in the URL
+    return this.http.delete(url); // Perform the DELETE request
   }
-
  
 }
 

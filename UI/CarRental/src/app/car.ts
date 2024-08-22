@@ -1,7 +1,25 @@
 export interface Car {
-    carid: number;
-    carName: string;
-    model: string;
-    rentalprice: number;
-    carPhoto: string;
-  }
+  carId: number;
+  model: number;
+  carName: string;
+  rentalprice: number;
+  carImage: string;
+  isAvailable: boolean;
+}
+
+export interface CarDTO {
+  carName: string;
+  model: number;
+  rentalprice: number;
+  imageFile: File; // File type for image
+}
+
+export interface CarUpdateDTO {
+  carId: number;
+  carName: string;
+  model: number;
+  rentalprice: number;
+  imageFile?: File; // Optional file for update
+  carImage?: string; // Existing image path, optional
+  isAvailable?: boolean; // Optional availability
+}

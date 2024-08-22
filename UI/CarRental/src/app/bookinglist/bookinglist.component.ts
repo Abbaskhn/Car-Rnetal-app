@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Booking } from '../Booking';
+
 import { Router } from '@angular/router';
 import { CarbookingService } from '../carbooking.service';
 import { AuthService } from '../auth.service';
+import { BookingCarDto } from '../Booking';
 
 @Component({
   selector: 'app-bookinglist',
@@ -11,31 +12,31 @@ import { AuthService } from '../auth.service';
   templateUrl: './bookinglist.component.html',
   styleUrl: './bookinglist.component.css'
 })
-export class BookinglistComponentt implements OnInit{
-  booking: Booking[] = [];
+export class BookinglistComponentt implements OnInit {
+  bookings: BookingCarDto[] = [];
   isAdmin: boolean = false;
   isVendor: boolean = false;
   isCustomer: boolean = false;
 
   constructor(
-    private router: Router, 
+    private router: Router,
     private bookingService: CarbookingService,
-    private authService: AuthService // Inject AuthService to manage roles
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
-    this.GetData();
-    this.setUserRoles(); // Set roles based on the authenticated user
+    this.getData();
+    this.setUserRoles();
   }
 
-  GetData(): void {
-    this.bookingService.getAllBookings().subscribe((data) => {
-      this.booking = data;
+  getData(): void {
+    this.bookingService.getBookings().subscribe((data) => {
+      this.bookings = data;
     });
   }
 
   setUserRoles(): void {
-    const userRole = this.authService.getCurrentUserRole(); // Method to get the user's role
+    const userRole = this.authService.getCurrentUserRole();
     this.isAdmin = userRole === 'Admin';
     this.isVendor = userRole === 'Vendor';
     this.isCustomer = userRole === 'Customer';
@@ -44,7 +45,7 @@ export class BookinglistComponentt implements OnInit{
   delete(id: number): void {
     if (this.isAdmin) {
       this.bookingService.deleteBooking(id).subscribe(() => {
-        this.GetData(); // Refresh the list after deletion
+        this.getData();
       });
     } else {
       alert('You do not have permission to delete bookings.');

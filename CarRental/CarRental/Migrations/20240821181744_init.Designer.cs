@@ -12,8 +12,8 @@ using application.Dbcontext;
 namespace CarRental.Migrations
 {
     [DbContext(typeof(Dbuser))]
-    [Migration("20240819145408_1")]
-    partial class _1
+    [Migration("20240821181744_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,28 +56,33 @@ namespace CarRental.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("TotalAmount")
-                        .HasColumnType("decimal(18,2)");
+                        .HasColumnType("decimal(18, 2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CarId");
 
                     b.ToTable("BookingCarss");
                 });
 
             modelBuilder.Entity("application.model.Car", b =>
                 {
-                    b.Property<int>("carid")
+                    b.Property<int>("CarId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("carid"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarId"));
+
+                    b.Property<string>("CarImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CarName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CarPhoto")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<bool>("IsAvailable")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Model")
                         .HasColumnType("int");
@@ -85,7 +90,7 @@ namespace CarRental.Migrations
                     b.Property<int>("Rentalprice")
                         .HasColumnType("int");
 
-                    b.HasKey("carid");
+                    b.HasKey("CarId");
 
                     b.ToTable("cars");
                 });
@@ -118,6 +123,23 @@ namespace CarRental.Migrations
                     b.ToTable("customers");
                 });
 
+            modelBuilder.Entity("application.model.Role", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Role");
+                });
+
             modelBuilder.Entity("application.model.User", b =>
                 {
                     b.Property<int>("Id")
@@ -142,9 +164,8 @@ namespace CarRental.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Token")
                         .IsRequired()
@@ -155,6 +176,8 @@ namespace CarRental.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
 
                     b.ToTable("users", (string)null);
                 });
@@ -185,6 +208,28 @@ namespace CarRental.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Vendors", (string)null);
+                });
+
+            modelBuilder.Entity("application.model.BookingCar", b =>
+                {
+                    b.HasOne("application.model.Car", "Car")
+                        .WithMany()
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+                });
+
+            modelBuilder.Entity("application.model.User", b =>
+                {
+                    b.HasOne("application.model.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
                 });
 #pragma warning restore 612, 618
         }

@@ -13,8 +13,7 @@ export interface TokenResponseModel {
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-  private url = "https://localhost:7066/api/User";
+export class AuthService {private url = "https://localhost:7066/api/User";
   private refreshTokenInProgress = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private currentTokenSubject: BehaviorSubject<string | null>;
@@ -29,8 +28,13 @@ export class AuthService {
     this.currentUserSubject = new BehaviorSubject<number | null>(storedUserId ? Number(storedUserId) : null);
     this.currentToken = this.currentTokenSubject.asObservable();
     this.currentUser = this.currentUserSubject.asObservable();
+   
+      this.currentUserSubject = new BehaviorSubject<number | null>(null);
+      this.currentUser = this.currentUserSubject.asObservable();
+    
     this.checkTokenExpiration();
   }
+  
 
   login(loginData: any): Observable<any> {
     return this.http.post<TokenResponseModel>(`${this.url}/authenticate`, loginData).pipe(
@@ -44,7 +48,8 @@ export class AuthService {
   register(user: any): Observable<any> {
     return this.http.post<any>(`${this.url}/register`, user);
   }
-  storeToken(response: TokenResponseModel) {
+
+  public storeToken(response: TokenResponseModel) {
     console.log('Received response:', response);
   
     if (response.token) {
@@ -61,8 +66,6 @@ export class AuthService {
       this.currentUserSubject.next(response.userId);
     } 
   }
-  
-
 
   getToken(): string | null {
     return localStorage.getItem('token');
@@ -86,7 +89,7 @@ export class AuthService {
     localStorage.removeItem('userId');
     this.currentTokenSubject.next(null);
     this.currentUserSubject.next(null);
-    this.router.navigate(['/register']);
+    this.router.navigate(['/register']);  // Redirect to the register page after logout
   }
 
   refreshToken(): Observable<any> {
@@ -114,7 +117,7 @@ export class AuthService {
     }
   }
 
-  checkTokenExpiration(): void {
+  public checkTokenExpiration(): void {
     const token = this.getToken();
     if (token) {
       const expirationDate = this.getTokenExpirationDate(token);
@@ -132,7 +135,7 @@ export class AuthService {
     }
   }
 
-  getTokenExpirationDate(token: string): Date | null {
+  public getTokenExpirationDate(token: string): Date | null {
     const decoded = this.decodeToken(token);
     if (decoded.exp === undefined) return null;
 
@@ -141,7 +144,7 @@ export class AuthService {
     return date;
   }
 
-  decodeToken(token: string): any {
+  private decodeToken(token: string): any {
     try {
       return JSON.parse(atob(token.split('.')[1]));
     } catch (error) {

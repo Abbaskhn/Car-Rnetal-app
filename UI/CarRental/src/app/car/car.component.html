@@ -1,34 +1,34 @@
-<div *ngIf="isAdmin">
-    <h2>Admin Controls</h2>
-    <button (click)="addNewCar()">Add New Car</button>
-    <button (click)="manageSuppliers()">Manage Suppliers</button>
-    <div *ngFor="let car of cars">
-      <h3>{{ car.carName }}</h3>
-      <p>{{ car.model }}</p>
-      <button (click)="deleteCar(car.carid)">Delete Car</button>
+<div class="container">
+  <h1>Car Listings</h1>
+  
+  <div class="role-buttons">
+    <button *ngIf="isAdmin" (click)="addNewCar()">Add New Car</button>
+    <button *ngIf="isAdmin" (click)="manageSuppliers()">Manage Suppliers</button>
+    <button *ngIf="isVendor" (click)="addCarListing()">Add Car Listing</button>
+  </div>
+  
+  <div *ngIf="cars.length > 0; else noCarsMessage" class="card-container">
+    <div class="card" *ngFor="let car of cars">
+      <img [src]="'https://localhost:7066/images/' + car.carImage" alt="{{ car.carName }}">
+
+      <div class="card-content">
+        <h2>{{ car.carName }}</h2>
+        <p>Model: {{ car.model }}</p>
+        <p>Price: {{ car.rentalprice | currency }}</p>
+        <div class="card-actions">
+          <ng-container *ngIf="isAdmin || isVendor">
+            <button (click)="editCar(car.carId)">Edit</button>
+            <button (click)="deleteCar(car.carId)">Delete</button>
+          </ng-container>
+          <ng-container *ngIf="isCustomer">
+            <button (click)="bookCar(car.carId)">Book</button>
+          </ng-container>
+        </div>
+      </div>
     </div>
   </div>
   
-  <div *ngIf="isVendor">
-    <h2>Vendor Controls</h2>
-    <button (click)="addCarListing()">Add Car </button>
-    <div *ngFor="let car of cars">
-      <h3>{{ car.carName }}</h3>
-      <p>{{ car.model }}</p>
-      <button (click)="deleteCar(car.carid)">Delete Car</button>
-    </div>
-  </div>
-  
-  <div *ngIf="isCustomer">
-    <h2>Available Cars</h2>
-    <div *ngFor="let car of cars">
-      <h3>{{ car.carName }}</h3>
-      <p>{{ car.model }}</p>
-      <button (click)="bookCar()">Book a Car</button>
-    </div>
-  </div>
-  
-  <div *ngIf="!isAdmin && !isVendor && !isCustomer">
-    <p>You do not have access to any special controls.</p>
-  </div>
-  
+  <ng-template #noCarsMessage>
+    <p>No cars available.</p>
+  </ng-template>
+</div>

@@ -1,52 +1,108 @@
-/* Container to center the registration form */
+/* Container Styling */
 .registration-container {
-  display: flex; /* Use flexbox layout */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
-  height: 100vh; /* Full viewport height */
-  background-color: #f4f4f4; /* Optional: background color for contrast */
-  padding: 20px; /* Optional: add padding around the container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #2e2e2e; /* Light black background */
+  padding: 20px;
 }
 
-/* Style for the registration form */
+/* Card Styling */
 .registration-form {
-  width: 300px; /* Fixed width for the form */
-  padding: 20px; /* Optional: padding inside the form */
-  background-color: #fff; /* Optional: background color for the form */
-  border-radius: 8px; /* Optional: rounded corners for the form */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: shadow effect for a floating look */
+  width: 400px;
+  background-color: #424242; /* Light black card background */
+  color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Box shadow */
+  padding: 16px;
 }
 
-/* Style for full-width form elements */
+/* Header Styling */
+mat-card-header {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+mat-card-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+/* Form Field Styling */
 .full-width {
-  width: 100%; /* Full width of the parent container */
-  margin-bottom: 20px; /* Space below each full-width element */
+  width: 100%;
 }
 
-/* Optional: Styling for input fields inside the form */
-.registration-form input[type="text"],
-.registration-form input[type="email"],
-.registration-form input[type="password"] {
-  width: 100%; /* Full width of the form */
-  padding: 10px; /* Padding inside input fields */
-  border: 1px solid #ccc; /* Border color and style */
-  border-radius: 4px; /* Rounded corners for input fields */
-  box-sizing: border-box; /* Ensure padding and border are included in the element's total width and height */
-}
-  
-/* Optional: Styling for buttons inside the form */
-.registration-form button {
-  width: 100%; /* Full width of the form */
-  padding: 10px; /* Padding inside the button */
-  border: none; /* Remove default border */
-  border-radius: 4px; /* Rounded corners for button */
-  background-color: #007bff; /* Background color for button */
-  color: #fff; /* Text color for button */
-  font-size: 16px; /* Font size for button text */
-  cursor: pointer; /* Pointer cursor on hover */
-  transition: background-color 0.3s ease; /* Smooth transition for background color on hover */
+mat-form-field {
+  color: #ffffff;
 }
 
-.registration-form button:hover {
-  background-color: #0056b3; /* Darker background color on hover */
+mat-form-field .mat-form-field-infix {
+  background-color: #616161; /* Input field background */
+  border-radius: 4px;
+}
+
+input[matInput] {
+  color: #ffffff;
+}
+
+.mat-select-value {
+  color: #ffffff;
+}
+
+.mat-form-field-label {
+  color: #bdbdbd; /* Label color */
+}
+
+/* Button Styling */
+button[type="submit"] {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #ff6f00; /* Orange button */
+  color: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button[type="submit"]:hover {
+  background-color: #ff8f00;
+  transform: translateY(-2px);
+}
+
+/* Footer Styling */
+mat-card-footer {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 14px;
+  color: #bdbdbd; /* Light gray text */
+}
+
+.login-link {
+  color: #ff6f00; /* Orange link */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.login-link:hover {
+  color: #ff8f00;
+  text-decoration: underline;
+}
+
+/* Add subtle animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+mat-card {
+  animation: fadeIn 0.5s ease-in-out;
 }

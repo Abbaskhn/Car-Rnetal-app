@@ -15,6 +15,9 @@ import { FormGroup, FormsModule } from '@angular/forms';
 export class VendorComponent {
   data: Vendor[] = []; // Define data with type Vendor[]
   vendor!: FormGroup;
+  isAdmin = false;
+  isVendor = false;
+  isCustomer = false;
 
   constructor(private vendorService: VendorService, private router: Router) {}
 

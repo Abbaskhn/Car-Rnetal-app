@@ -1,33 +1,56 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Booking } from './Booking';
+import { catchError, Observable, throwError } from 'rxjs';
+import { BookingCarDto } from './Booking';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarbookingService {
-  private apiUrl = "https://localhost:7066/api/BookingCar";
+  private baseUrl = "https://localhost:7066/api/BookingCar";
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-  getAllBookings(): Observable<Booking[]> {
-    return this.http.get<Booking[]>(this.apiUrl);
+  getBookings(): Observable<BookingCarDto[]> {
+    return this.http.get<BookingCarDto[]>(this.baseUrl).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  getBooking(id: number): Observable<Booking> {
-    return this.http.get<Booking>(`${this.apiUrl}/${id}`);
+  getBookingById(id: number): Observable<BookingCarDto> {
+    return this.http.get<BookingCarDto>(`${this.baseUrl}/${id}`).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  createBooking(booking: Booking): Observable<Booking> {
-    return this.http.post<Booking>(this.apiUrl, booking);
+  createBooking(booking: BookingCarDto): Observable<BookingCarDto> {
+    return this.http.post<BookingCarDto>(this.baseUrl, booking).pipe(
+      catchError(this.handleError)
+    );
   }
 
-  updateBooking(id: number, booking: Booking): Observable<Booking> {
-    return this.http.put<Booking>(`${this.apiUrl}/${id}`, booking);
+  updateBooking(id: number, booking: BookingCarDto): Observable<BookingCarDto> {
+    return this.http.put<BookingCarDto>(`${this.baseUrl}/${id}`, booking).pipe(
+      catchError(this.handleError)
+    );
   }
 
   deleteBooking(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.baseUrl}/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  checkCarAvailability(carId: number, startDate: Date, endDate: Date): Observable<any> {
+    const params = new HttpParams()
+      .set('carId', carId.toString())
+      .set('startDate', startDate.toISOString())
+      .set('endDate', endDate.toISOString());
+  
+    return this.http.get<any>(`${this.baseUrl}/check-availability`, { params });
+  }
+  private handleError(error: any) {
+    console.error('An error occurred', error);
+    return throwError('Something bad happened; please try again later.');
   }
 }

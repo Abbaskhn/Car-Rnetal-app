@@ -39,9 +39,7 @@ export class LayoutComponent implements OnInit{
   Car(){
     this.router.navigate(['/car']);
   }
-  Booking(){
-    this.router.navigate(['/booking']);
-  }
+  
   Bookinglist(){
     this.router.navigate(['/bookinglist']);
   }

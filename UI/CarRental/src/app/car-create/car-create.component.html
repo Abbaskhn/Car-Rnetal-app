@@ -1,24 +1,27 @@
-<!-- src/app/car-create/car-create.component.html -->
-<div class="car-create">
-    <h1>Create New Car</h1>
-    <form (ngSubmit)="createCar()">
-      <div class="form-group">
-        <label for="carName">Car Name</label>
-        <input type="text" class="form-control" id="carName" [(ngModel)]="car.carName" name="carName" required />
-      </div>
-      <div class="form-group">
-        <label for="model">Model</label>
-        <input type="text" class="form-control" id="model" [(ngModel)]="car.model" name="model" required />
-      </div>
-      <div class="form-group">
-        <label for="rentalprice">Rental Price</label>
-        <input type="number" class="form-control" id="rentalprice" [(ngModel)]="car.rentalprice" name="rentalprice" required />
-      </div>
-      <div class="form-group">
-        <label for="carPhoto">Car Photo</label>
-        <input type="file" class="form-control" id="carPhoto" (change)="onFileChange($event)" />
-      </div>
-      <button type="submit" class="btn btn-primary">Create</button>
-    </form>
+<h2>{{ isUpdateMode ? 'Update Car Details' : 'Create New Car' }}</h2>
+
+<form [formGroup]="carForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <label for="carName">Car Name</label>
+    <input id="carName" type="text" formControlName="carName" class="form-control" />
   </div>
-  
+
+  <div class="form-group">
+    <label for="model">Model</label>
+    <input id="model" type="number" formControlName="model" class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label for="rentalprice">Rental Price</label>
+    <input id="rentalprice" type="number" formControlName="rentalprice" class="form-control" />
+  </div>
+
+  <div class="form-group">
+    <label for="imageFile">Car Image</label>
+    <input id="imageFile" type="file" (change)="onFileChange($event)" class="form-control" />
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="!carForm.valid">
+    {{ isUpdateMode ? 'Update Car' : 'Create Car' }}
+  </button>
+</form>
