@@ -1,6 +1,7 @@
 using CRCQRS.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+
 namespace CRCQRS.Infrastructure
 {
   public class CRCQRSContext : IdentityDbContext<ApplicationUser, ApplicationRole, long>
@@ -12,6 +13,8 @@ namespace CRCQRS.Infrastructure
     public DbSet<Car> Cars { get; set; }
     public DbSet<Vendor> Vendors { get; set; }
     public DbSet<BookingCar> BookingCars { get; set; }
+    public DbSet<AppFile> AppFiles { get; set; }
+    public DbSet<CarFile> CarFiles { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -21,13 +24,40 @@ namespace CRCQRS.Infrastructure
       modelBuilder.Entity<Vendor>().ToTable("Vendors");
       modelBuilder.Entity<Car>().ToTable("Cars");
       modelBuilder.Entity<BookingCar>().ToTable("BookingCars");
+      modelBuilder.Entity<AppFile>().ToTable("AppFiles");
+      modelBuilder.Entity<CarFile>().ToTable("CarFiles");
 
       // Configuring precision and scale for the TotalAmount column in BookingCar
       modelBuilder.Entity<BookingCar>()
                   .Property(b => b.TotalAmount)
                   .HasColumnType("decimal(18, 2)");
 
-      // Configuring relationships
+      // ApplicationUser -> AppFile (One-to-One) for UserImageFile
+      modelBuilder.Entity<ApplicationUser>()
+          .HasOne(au => au.UserImageFile)
+          .WithMany()
+          .HasForeignKey(au => au.UserImage)
+          .OnDelete(DeleteBehavior.Restrict);
+
+      // Car -> CarFile (One-to-Many) for CarImages
+      modelBuilder.Entity<Car>()
+          .HasMany(c => c.CarImages)
+          .WithOne(cf => cf.Car)
+          .HasForeignKey(cf => cf.CarId)
+          .OnDelete(DeleteBehavior.Cascade);
+
+      // CarFile -> AppFile (Many-to-One)
+      modelBuilder.Entity<CarFile>()
+          .HasOne(cf => cf.Car)
+          .WithMany(c => c.CarImages)
+          .HasForeignKey(cf => cf.CarId)
+          .OnDelete(DeleteBehavior.Cascade);
+
+      modelBuilder.Entity<CarFile>()
+          .HasOne(cf => cf.CarImages)
+          .WithMany()
+          .HasForeignKey(cf => cf.AppFileId)
+          .OnDelete(DeleteBehavior.Restrict);
 
       // BookingCar -> Car (Many-to-One)
       modelBuilder.Entity<BookingCar>()
@@ -65,6 +95,4 @@ namespace CRCQRS.Infrastructure
           .OnDelete(DeleteBehavior.Restrict);
     }
   }
-
-
 }

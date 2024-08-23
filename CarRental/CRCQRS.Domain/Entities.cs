@@ -40,16 +40,39 @@ namespace CRCQRS.Domain
 
     public int Rentalprice { get; set; }
     /// <summary>
-    /// Added property to store the image filename
-    /// </summary>
-    public string CarImage { get; set; }
-    /// <summary>
     /// New property to track availability
     /// </summary>
     public bool IsAvailable { get; set; }
     public ICollection<BookingCar> CarBookings { get; set; }
+    public virtual ICollection<CarFile> CarImages { get; set; }
   }
+  public class CarFile
+  {
+    public int Id { get; set; }
 
+    public int CarId { get; set; }
+    public virtual Car Car { get; set; }
+    public long AppFileId { get; set; }
+    public virtual AppFile CarImages { get; set; }
+  }
+  public class AppFile
+  {
+    [Key]
+    public long Id { get; set; }
+
+    public string FileName { get; set; }
+    /// <summary>
+    /// Extension
+    /// </summary>
+    public string ContentType { get; set; }
+
+    public long FileSize { get; set; }
+
+    public byte[] Data { get; set; }
+
+    public DateTime UploadedOn { get; set; }
+
+  }
   public class Vendor : ApplicationUser
   {
 
@@ -62,7 +85,8 @@ namespace CRCQRS.Domain
     public string Address { get; set; }
     public int Phone { get; set; }
     public bool IsActive { get; set; } = true;
-
+    public long? UserImage { get; set; }
+    public virtual AppFile UserImageFile { get; set; }
     public DateTime CreatedDate { get; set; } = DateTime.Now;
 
     public DateTime? ModifiedDate { get; set; }

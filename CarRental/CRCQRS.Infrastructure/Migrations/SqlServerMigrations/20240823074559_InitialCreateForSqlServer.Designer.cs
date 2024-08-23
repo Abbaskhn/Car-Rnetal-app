@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
 {
     [DbContext(typeof(CRCQRSContext))]
-    [Migration("20240823053636_InitialCreateForSqlServer")]
+    [Migration("20240823074559_InitialCreateForSqlServer")]
     partial class InitialCreateForSqlServer
     {
         /// <inheritdoc />
@@ -24,6 +24,34 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("CRCQRS.Domain.AppFile", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("ContentType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("Data")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("UploadedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppFiles", (string)null);
+                });
 
             modelBuilder.Entity("CRCQRS.Domain.ApplicationRole", b =>
                 {
@@ -133,6 +161,9 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
+                    b.Property<long?>("UserImage")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -146,6 +177,8 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("UserImage");
 
                     b.ToTable("AspNetUsers", (string)null);
 
@@ -197,9 +230,6 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CarId"));
 
-                    b.Property<string>("CarImage")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("CarName")
                         .HasColumnType("nvarchar(max)");
 
@@ -220,6 +250,29 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
                     b.HasIndex("VendorId");
 
                     b.ToTable("Cars", (string)null);
+                });
+
+            modelBuilder.Entity("CRCQRS.Domain.CarFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<long>("AppFileId")
+                        .HasColumnType("bigint");
+
+                    b.Property<int>("CarId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppFileId");
+
+                    b.HasIndex("CarId");
+
+                    b.ToTable("CarFiles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -345,6 +398,16 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
                     b.ToTable("Vendors", (string)null);
                 });
 
+            modelBuilder.Entity("CRCQRS.Domain.ApplicationUser", b =>
+                {
+                    b.HasOne("CRCQRS.Domain.AppFile", "UserImageFile")
+                        .WithMany()
+                        .HasForeignKey("UserImage")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("UserImageFile");
+                });
+
             modelBuilder.Entity("CRCQRS.Domain.BookingCar", b =>
                 {
                     b.HasOne("CRCQRS.Domain.Car", "Car")
@@ -373,6 +436,25 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
                         .IsRequired();
 
                     b.Navigation("VendorUser");
+                });
+
+            modelBuilder.Entity("CRCQRS.Domain.CarFile", b =>
+                {
+                    b.HasOne("CRCQRS.Domain.AppFile", "CarImages")
+                        .WithMany()
+                        .HasForeignKey("AppFileId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("CRCQRS.Domain.Car", "Car")
+                        .WithMany("CarImages")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+
+                    b.Navigation("CarImages");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -458,6 +540,8 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
             modelBuilder.Entity("CRCQRS.Domain.Car", b =>
                 {
                     b.Navigation("CarBookings");
+
+                    b.Navigation("CarImages");
                 });
 
             modelBuilder.Entity("CRCQRS.Domain.Vendor", b =>

@@ -65,6 +65,7 @@ namespace CRCQRS.API.DataSeeding
           await _userManager.AddToRoleAsync(user, "Admin");
         }
       }
+
     }
   }
 }

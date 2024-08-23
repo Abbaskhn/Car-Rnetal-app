@@ -12,6 +12,23 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "AppFiles",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ContentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileSize = table.Column<long>(type: "bigint", nullable: false),
+                    Data = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    UploadedOn = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppFiles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -39,6 +56,7 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Phone = table.Column<int>(type: "int", nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    UserImage = table.Column<long>(type: "bigint", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -59,6 +77,12 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_AppFiles_UserImage",
+                        column: x => x.UserImage,
+                        principalTable: "AppFiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -207,7 +231,6 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
                     Model = table.Column<int>(type: "int", nullable: false),
                     CarName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rentalprice = table.Column<int>(type: "int", nullable: false),
-                    CarImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -249,6 +272,32 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
                         principalTable: "Cars",
                         principalColumn: "CarId",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CarFiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CarId = table.Column<int>(type: "int", nullable: false),
+                    AppFileId = table.Column<long>(type: "bigint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CarFiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CarFiles_AppFiles_AppFileId",
+                        column: x => x.AppFileId,
+                        principalTable: "AppFiles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_CarFiles_Cars_CarId",
+                        column: x => x.CarId,
+                        principalTable: "Cars",
+                        principalColumn: "CarId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -294,6 +343,11 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_UserImage",
+                table: "AspNetUsers",
+                column: "UserImage");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "AspNetUsers",
                 column: "NormalizedUserName",
@@ -309,6 +363,16 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
                 name: "IX_BookingCars_CustomerId",
                 table: "BookingCars",
                 column: "CustomerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CarFiles_AppFileId",
+                table: "CarFiles",
+                column: "AppFileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CarFiles_CarId",
+                table: "CarFiles",
+                column: "CarId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cars_VendorId",
@@ -338,6 +402,9 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
                 name: "BookingCars");
 
             migrationBuilder.DropTable(
+                name: "CarFiles");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -348,6 +415,9 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "AppFiles");
         }
     }
 }
