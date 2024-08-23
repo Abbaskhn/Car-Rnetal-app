@@ -9,6 +9,7 @@ import { BookingCarDto } from './Booking';
 })
 export class CarbookingService {
   private baseUrl = "https://localhost:7066/api/BookingCar";
+  //  private baseUrl = "/BookingCar";
   constructor(private http: HttpClient) {}
 
   getBookings(): Observable<BookingCarDto[]> {
