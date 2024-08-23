@@ -25,6 +25,18 @@ export interface AppResponseModel<T> {
   success: boolean;
   totalRecords: number;
 }
+export interface AppResponseModelExt<T> {
+  success: boolean;
+  isSuccess: boolean;
+  message: string;
+  statusCode: number;
+  data: {
+    $id: string;
+    $values: T;
+  };
+  recordsEffected: number;
+  totalRecords: number;
+}
 // export interface AppResponseModel{
 //   data: TokenResponseModel;
 //   isSuccess: boolean;

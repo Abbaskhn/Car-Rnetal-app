@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Car } from './car';
 import { environment } from '../environment';
-import { AppResponseModel } from './auth.service';
+import { AppResponseModel, AppResponseModelExt } from './auth.service';
 
 
 
@@ -19,8 +19,8 @@ export class CarService {
     return this.http.post<AppResponseModel<Car>>(this.baseUrl+'/Add', carData);
   }
 
-  getCars(): Observable<AppResponseModel<Car[]>> {
-    return this.http.get<AppResponseModel<Car[]>>(this.baseUrl+'/GetAll');
+  getCars(): Observable<AppResponseModelExt<Car[]>> {
+    return this.http.get<AppResponseModelExt<Car[]>>(this.baseUrl+'/GetAll');
   }
 
 

@@ -1,12 +1,34 @@
+import { Binary } from "@angular/compiler";
+
 export interface Car {
   carId: number;
+  vendorId: number;
   model: number;
   carName: string;
-  fileId: number;
   rentalprice: number;
-  carImage: string;
   isAvailable: boolean;
+  carFiles: {
+    $id: string;
+    $values: CarFile[];
+  }; // Array of CarFile objects
 }
+
+export interface CarFile {
+  id: number;
+  carId: number;
+  appFileId: number;
+  carAppFiles: AppFile; // Reference to the file details
+}
+
+export interface AppFile {
+  id: number;
+  fileName: string;
+  contentType: string;
+  fileSize: number;
+  data: string; // Base64 encoded image data
+  uploadedOn: string;
+}
+
 
 export interface CarDTO {
   carName: string;

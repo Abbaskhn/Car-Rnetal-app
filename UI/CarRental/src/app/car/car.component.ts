@@ -3,14 +3,15 @@ import { Component, OnInit } from '@angular/core';
 import { CarService } from '../car.service';
 import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { AppResponseModel, AuthService } from '../auth.service';
+import { AppResponseModel, AppResponseModelExt, AuthService } from '../auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Car } from '../car';
+import { ImageViewerComponent } from '../components/imageViewer.component';
 
 @Component({
   selector: 'app-car',
   standalone: true,
-  imports: [NgFor,RouterLink,CurrencyPipe,NgIf],
+  imports: [NgFor,RouterLink,CurrencyPipe,NgIf, ImageViewerComponent],
   templateUrl: './car.component.html',
   styleUrl: './car.component.css'
 })
@@ -45,9 +46,11 @@ export class CarComponent implements OnInit {
 
 
   loadCars(): void {
-    this.carService.getCars().subscribe((res: AppResponseModel<Car[]>) => {
+    this.carService.getCars().subscribe((res: AppResponseModelExt<Car[]>) => {
       console.log('Received car data:', res); // For debugging
-      this.cars = res.data;
+      this.cars = res.data.$values;
+      console.log('res.data:', res.data); // For debugging
+     // console.log('res.data:', res.data.$values); // For debugging
     }, error => {
       console.error('Error loading cars:', error); // For debugging
     });

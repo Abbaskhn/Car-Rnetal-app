@@ -9,7 +9,8 @@
   
   <div *ngIf="cars.length > 0; else noCarsMessage" class="card-container">
     <div class="card" *ngFor="let car of cars">
-      <img [src]="'https://localhost:7066/images/' + car.carImage" alt="{{ car.carName }}">
+      <!-- <img [src]="'https://localhost:7066/images/' + car.carImage" alt="{{ car.carName }}"> -->
+      <app-image-viewer [ImageData]="car.carFiles.$values[0].carAppFiles.data"></app-image-viewer>
 
       <div class="card-content">
         <h2>{{ car.carName }}</h2>
