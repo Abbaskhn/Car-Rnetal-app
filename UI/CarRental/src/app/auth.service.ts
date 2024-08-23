@@ -3,17 +3,43 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, filter, map, switchMap, take } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from '../environment';
 
 export interface TokenResponseModel {
-  token: string;
-  refreshToken: string;
-  userId: number;
+ 
+    token: string;
+    refreshToken: string;
+    userId: number;
+    roles: {
+      $id: string;
+      $values: string[]; // The actual array of roles is inside the $values property
+    };
+  
 }
+export interface AppResponseModel<T> {
+  data: T;
+  isSuccess: boolean;
+  message: string;
+  recordsEffected: number;
+  statusCode: number;
+  success: boolean;
+  totalRecords: number;
+}
+// export interface AppResponseModel{
+//   data: TokenResponseModel;
+//   isSuccess: boolean;
+//   message: string;
+//   recordsEffected: number;
+//   statusCode: number;
+//   success: boolean;
+//   totalRecords: number;
+// }
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {private url = "https://localhost:7066/api/User";
+export class AuthService {
+  private url = environment.apiUrl+'/Account';// "https://localhost:7066/api/User";
   private refreshTokenInProgress = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   private currentTokenSubject: BehaviorSubject<string | null>;
@@ -36,15 +62,34 @@ export class AuthService {private url = "https://localhost:7066/api/User";
   }
   
 
-  login(loginData: any): Observable<any> {
-    return this.http.post<TokenResponseModel>(`${this.url}/authenticate`, loginData).pipe(
-      map((response: TokenResponseModel) => {
-        this.storeToken(response);
+  login(loginData: any): Observable<AppResponseModel<TokenResponseModel>> {
+    return this.http.post<AppResponseModel<TokenResponseModel>>(`${this.url}/login`, loginData).pipe(
+      map((response: AppResponseModel<TokenResponseModel>) => {
+        console.log('authservice token:', response);
+        this.setUserRoles(response);
+        this.storeToken(response.data);
         return response;
       })
     );
   }
-
+  setUserRoles(response: AppResponseModel<TokenResponseModel>): void {
+    // Extract the roles array from the $values property
+    const roles = response.data.roles.$values;
+    
+    // Store the roles array in localStorage as a JSON string
+    localStorage.setItem('roles', JSON.stringify(roles));
+  }
+  
+  getUserRoles(): string[] {
+    const rolesString = localStorage.getItem('roles');
+    return rolesString ? JSON.parse(rolesString) : [];
+  }
+  
+  hasUserRole(role: string): boolean {
+    const roles = this.getUserRoles();
+    return roles.includes(role); // Check if the role exists in the roles array
+  }
+  
   register(user: any): Observable<any> {
     return this.http.post<any>(`${this.url}/register`, user);
   }
@@ -150,19 +195,6 @@ export class AuthService {private url = "https://localhost:7066/api/User";
     } catch (error) {
       return null;
     }
-  }
-
-  // Role checks
-  isAdmin(): boolean {
-    return this.getCurrentUserRole() === 'Admin';
-  }
-
-  isVendor(): boolean {
-    return this.getCurrentUserRole() === 'Vendor';
-  }
-
-  isCustomer(): boolean {
-    return this.getCurrentUserRole() === 'Customer';
   }
 
   public getCurrentUserRole(): string | null {

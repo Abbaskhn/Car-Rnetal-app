@@ -3,6 +3,8 @@ import { CarService } from '../car.service';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import {Car } from '../car';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FileService } from '../services/file.service';
+import { AppResponseModel } from '../auth.service';
 
 @Component({
   selector: 'app-car-create',
@@ -16,11 +18,12 @@ export class CarCreateComponent {
   carId: number | null = null;
   selectedFile: File | null = null;
   isUpdateMode: boolean = false;
-
+ // fileId: number=0;
   constructor(
     private fb: FormBuilder,
     private carService: CarService,
     private route: ActivatedRoute,
+    private fileSrv: FileService,
     private router: Router
   ) {
     this.carForm = this.fb.group({
@@ -28,6 +31,7 @@ export class CarCreateComponent {
       model: ['', Validators.required],
       rentalprice: ['', Validators.required],
       isAvailable: [false],
+      fileId:[0]
     });
 
     const id = this.route.snapshot.params['id'];
@@ -48,7 +52,7 @@ export class CarCreateComponent {
           carName: car.carName,
           model: car.model,
           rentalprice: car.rentalprice,
-          isAvailable: car.isAvailable,
+          
         });
       });
     }
@@ -56,7 +60,13 @@ export class CarCreateComponent {
 
   onFileChange(event: any): void {
     if (event.target.files.length > 0) {
-      this.selectedFile = event.target.files[0];
+      const formData = new FormData();
+      formData.append('File', event.target.files[0]);
+      this.fileSrv.save(formData).subscribe((response: AppResponseModel<number>) =>
+      this.carForm.patchValue({
+        fileId: response.data // set the new value for fileId
+      })
+      );
     }
   }
 
@@ -69,11 +79,7 @@ export class CarCreateComponent {
     formData.append('CarName', this.carForm.get('carName')?.value);
     formData.append('Model', this.carForm.get('model')?.value);
     formData.append('Rentalprice', this.carForm.get('rentalprice')?.value);
-    formData.append('IsAvailable', this.carForm.get('isAvailable')?.value);
-
-    if (this.selectedFile) {
-      formData.append('ImageFile', this.selectedFile);
-    }
+    
 
     if (this.isUpdateMode && this.carId) {
       // Update existing car
@@ -89,7 +95,7 @@ export class CarCreateComponent {
       );
     } else {
       // Create new car
-      this.carService.createCar(formData).subscribe(
+      this.carService.createCar( this.carForm.value).subscribe(
         () => {
           alert('Car created successfully!');
           this.router.navigate(['/car']);

@@ -2,6 +2,7 @@ export interface Car {
   carId: number;
   model: number;
   carName: string;
+  fileId: number;
   rentalprice: number;
   carImage: string;
   isAvailable: boolean;

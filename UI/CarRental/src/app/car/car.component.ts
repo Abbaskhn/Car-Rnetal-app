@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { CarService } from '../car.service';
 import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AppResponseModel, AuthService } from '../auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Car } from '../car';
 
@@ -25,7 +25,12 @@ export class CarComponent implements OnInit {
     private carService: CarService,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) {
+    this.isAdmin = authService.hasUserRole("Admin");
+    this.isVendor = authService.hasUserRole("Vendor");
+    this.isCustomer = authService.hasUserRole("Customer");
+
+  }
 
   ngOnInit(): void {
     this.checkRole();
@@ -33,15 +38,16 @@ export class CarComponent implements OnInit {
   }
 
   checkRole(): void {
-    this.isAdmin = this.authService.isAdmin();
-    this.isVendor = this.authService.isVendor();
-    this.isCustomer = this.authService.isCustomer();
+    this.isAdmin = this.authService.hasUserRole("Admin");
+    this.isVendor = this.authService.hasUserRole("Vendor");
+    this.isCustomer = this.authService.hasUserRole("Customer");
   }
 
+
   loadCars(): void {
-    this.carService.getCars().subscribe((data: Car[]) => {
-      console.log('Received car data:', data); // For debugging
-      this.cars = data;
+    this.carService.getCars().subscribe((res: AppResponseModel<Car[]>) => {
+      console.log('Received car data:', res); // For debugging
+      this.cars = res.data;
     }, error => {
       console.error('Error loading cars:', error); // For debugging
     });

@@ -1,4 +1,5 @@
 using CRCQRS.Application.Commands;
+using CRCQRS.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,11 @@ namespace CRCQRS.API.Controllers
         return BadRequest(ModelState);
       }
       return await RunCommand(command);
+    }
+    [HttpGet("GetAll")]
+    public async Task<IActionResult> GetAll()
+    {
+      return await RunCommand(new GetAllCarsQuery());
     }
   }
 }

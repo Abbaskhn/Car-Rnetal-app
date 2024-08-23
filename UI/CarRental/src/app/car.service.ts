@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Car } from './car';
+import { environment } from '../environment';
+import { AppResponseModel } from './auth.service';
 
 
 
@@ -9,17 +11,18 @@ import { Car } from './car';
   providedIn: 'root'
 })
 export class CarService {
-  private baseUrl = 'https://localhost:7066/api/Car'; // Adjust base URL as needed
+  private baseUrl =  environment.apiUrl+'/api/Car';
  
   constructor(private http: HttpClient) {}
 
-  createCar(carData: FormData): Observable<any> {
-    return this.http.post<any>(this.baseUrl, carData);
+  createCar(carData: Car): Observable<AppResponseModel<Car>> {
+    return this.http.post<AppResponseModel<Car>>(this.baseUrl+'/Add', carData);
   }
 
-  getCars(): Observable<Car[]> {
-    return this.http.get<Car[]>(this.baseUrl);
+  getCars(): Observable<AppResponseModel<Car[]>> {
+    return this.http.get<AppResponseModel<Car[]>>(this.baseUrl+'/GetAll');
   }
+
 
   getCar(id: number): Observable<Car> {
     return this.http.get<any>(`${this.baseUrl}/${id}`);

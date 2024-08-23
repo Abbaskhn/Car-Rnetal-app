@@ -38,6 +38,7 @@ namespace CRCQRS.Application.Commands.Handlers
         {
           Token = token,
           Roles = roles,
+          UserId = user.Id,
           RefreshToken = GenerateRefreshToken()
         };
       }

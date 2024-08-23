@@ -44,7 +44,7 @@ namespace CRCQRS.Domain
     /// </summary>
     public bool IsAvailable { get; set; }
     public ICollection<BookingCar> CarBookings { get; set; }
-    public virtual ICollection<CarFile> CarImages { get; set; }
+    public virtual ICollection<CarFile> CarFiles { get; set; }
   }
   public class CarFile
   {
@@ -53,7 +53,7 @@ namespace CRCQRS.Domain
     public int CarId { get; set; }
     public virtual Car Car { get; set; }
     public long AppFileId { get; set; }
-    public virtual AppFile CarImages { get; set; }
+    public virtual AppFile CarAppFiles { get; set; }
   }
   public class AppFile
   {

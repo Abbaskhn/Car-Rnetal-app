@@ -41,7 +41,7 @@ namespace CRCQRS.Infrastructure
 
       // Car -> CarFile (One-to-Many) for CarImages
       modelBuilder.Entity<Car>()
-          .HasMany(c => c.CarImages)
+          .HasMany(c => c.CarFiles)
           .WithOne(cf => cf.Car)
           .HasForeignKey(cf => cf.CarId)
           .OnDelete(DeleteBehavior.Cascade);
@@ -49,12 +49,12 @@ namespace CRCQRS.Infrastructure
       // CarFile -> AppFile (Many-to-One)
       modelBuilder.Entity<CarFile>()
           .HasOne(cf => cf.Car)
-          .WithMany(c => c.CarImages)
+          .WithMany(c => c.CarFiles)
           .HasForeignKey(cf => cf.CarId)
           .OnDelete(DeleteBehavior.Cascade);
 
       modelBuilder.Entity<CarFile>()
-          .HasOne(cf => cf.CarImages)
+          .HasOne(cf => cf.CarAppFiles)
           .WithMany()
           .HasForeignKey(cf => cf.AppFileId)
           .OnDelete(DeleteBehavior.Restrict);

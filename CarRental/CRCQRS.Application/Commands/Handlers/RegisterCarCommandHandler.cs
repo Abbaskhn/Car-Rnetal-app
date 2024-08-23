@@ -30,10 +30,13 @@ namespace CRCQRS.Application.Commands.Handlers
       }
       _context.Cars.Add(objCar);
       var result = await _context.SaveChangesAsync(cancellationToken);
+      CarFile objCarFile = new CarFile() { AppFileId = request.FileId, CarId = objCar.CarId };
+      _context.CarFiles.Add(objCarFile);
+      await _context.SaveChangesAsync(cancellationToken);
       response.Success = true;
       response.Message = "Car Added successfully";
       response.StatusCode = HttpStatusCode.OK;
-      response.Data = new { FileId = objCar.CarId };
+      response.Data = objCar;
       return response;
 
 

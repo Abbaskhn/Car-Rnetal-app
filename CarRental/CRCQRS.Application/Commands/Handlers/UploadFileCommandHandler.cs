@@ -46,7 +46,7 @@ namespace CRCQRS.Application.Commands.Handlers
         response.Success = true;
         response.Message = "File uploaded successfully";
         response.StatusCode = HttpStatusCode.OK;
-        response.Data = new { FileId = appFile.Id };
+        response.Data = appFile.Id;// new { FileId = appFile.Id };
 
         return response;
       }

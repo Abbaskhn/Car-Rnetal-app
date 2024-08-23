@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
 {
     [DbContext(typeof(CRCQRSContext))]
-    [Migration("20240823074559_InitialCreateForSqlServer")]
+    [Migration("20240823124600_InitialCreateForSqlServer")]
     partial class InitialCreateForSqlServer
     {
         /// <inheritdoc />
@@ -440,21 +440,21 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
 
             modelBuilder.Entity("CRCQRS.Domain.CarFile", b =>
                 {
-                    b.HasOne("CRCQRS.Domain.AppFile", "CarImages")
+                    b.HasOne("CRCQRS.Domain.AppFile", "CarAppFiles")
                         .WithMany()
                         .HasForeignKey("AppFileId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("CRCQRS.Domain.Car", "Car")
-                        .WithMany("CarImages")
+                        .WithMany("CarFiles")
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Car");
 
-                    b.Navigation("CarImages");
+                    b.Navigation("CarAppFiles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -541,7 +541,7 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
                 {
                     b.Navigation("CarBookings");
 
-                    b.Navigation("CarImages");
+                    b.Navigation("CarFiles");
                 });
 
             modelBuilder.Entity("CRCQRS.Domain.Vendor", b =>

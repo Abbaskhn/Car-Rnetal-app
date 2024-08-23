@@ -36,8 +36,13 @@ export class LoginComponent  implements OnInit {
         (res) => {
           console.log('User Login:', res); 
           this.loginForm.reset();
-          this.authService.storeToken(res.token); // Ensure res.token exists and is correct
-          this.router.navigate(['/vendor-cust']);
+          this.authService.storeToken(res.data); // Ensure res.token exists and is correct
+          const roles = res.data.roles.$values;
+          if (roles.includes('Vendor')) {          
+            this.router.navigate(['/car']);
+          } else {
+            this.router.navigate(['/booking']);
+          }
         },
         (err) => {
           console.error('Error:', err);
