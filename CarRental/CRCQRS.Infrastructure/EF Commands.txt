@@ -1,0 +1,7 @@
+Sql Server
+Add-Migration -Name InitialCreateForSqlServer -OutputDir Migrations/SqlServerMigrations -Context CRCQRSContext
+Update-Database -Migration InitialCreateForSqlServer -Context CRCQRSContext
+
+Sqlite
+Add-Migration -Name InitialCreateForSQLite -OutputDir Migrations/SQLiteMigrations -Context CRCQRSContext
+Update-Database -Migration InitialCreateForSQLite -Context CRCQRSContext

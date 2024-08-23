@@ -1,0 +1,6 @@
+@CRCQRS.API_HostAddress = http://localhost:5117
+
+GET {{CRCQRS.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
