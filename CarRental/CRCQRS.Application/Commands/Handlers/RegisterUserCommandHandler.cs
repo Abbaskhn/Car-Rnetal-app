@@ -25,7 +25,7 @@ namespace CRCQRS.Application.Commands.Handlers
 
       if (result.Succeeded)
       {
-        await _userManager.AddToRoleAsync(user, request.Role);
+        await _userManager.AddToRoleAsync(user, "Customer");
 
         response.Success = true;
         response.Message = "User registered successfully";

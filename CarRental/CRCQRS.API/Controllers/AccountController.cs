@@ -13,8 +13,8 @@ namespace CRCQRS.API.Controllers
     {
     }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterUserCommand command)
+    [HttpPost("registerCustomer")]
+    public async Task<IActionResult> RegisterCustomer(RegisterUserCommand command)
     {
       return await RunCommand(command);
     }
