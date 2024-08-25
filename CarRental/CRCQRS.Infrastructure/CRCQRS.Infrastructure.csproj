@@ -45,9 +45,11 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.8" />
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="8.0.8" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlcipher" Version="2.1.9" />
+    <PackageReference Include="Stripe.net" Version="45.9.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CRCQRS.Common\CRCQRS.Common.csproj" />
     <ProjectReference Include="..\CRCQRS.Domain\CRCQRS.Domain.csproj" />
   </ItemGroup>
 </Project>

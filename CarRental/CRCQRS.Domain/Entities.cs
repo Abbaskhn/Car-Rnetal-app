@@ -106,4 +106,17 @@ namespace CRCQRS.Domain
     public ICollection<IdentityUserRole<long>> UserRoles { get; set; }
     //public ICollection<Permission> Permissions { get; set; }
   }
+  // LogEntry.cs
+  public class LogEntry
+  {
+    public int Id { get; set; }
+    public string LogLevel { get; set; }
+    public string Message { get; set; }
+    public DateTime Timestamp { get; set; }
+    public long UserId { get; set; }
+    public string Type { get; set; }
+    //Object as Json
+    public string Source { get; set; }
+  }
+
 }

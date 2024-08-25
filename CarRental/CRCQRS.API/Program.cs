@@ -1,8 +1,10 @@
 using CRCQRS.API.DataSeeding;
 using CRCQRS.Application.Commands.Handlers;
+using CRCQRS.Application.Services;
 using CRCQRS.Domain;
 using CRCQRS.DTO;
 using CRCQRS.Infrastructure;
+using CRCQRS.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -31,7 +33,8 @@ namespace CRCQRS.API
                 .AddDefaultTokenProviders();
       builder.Services.AddScoped<IDataSeeder, DataSeeder>();
       builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<RegisterUserCommandHandler>());
-
+      builder.Services.AddScoped<IUserInfoService, UserInfoService>();
+      builder.Services.AddScoped<IStripeService, StripeService>();
       // builder.Services.AddAuthentication();
       builder.Services.AddAuthorization();
       //builder.Services.AddAuthorization(options =>

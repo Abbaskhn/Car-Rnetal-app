@@ -1,3 +1,6 @@
+using CRCQRS.Application.DTO;
+using CRCQRS.Application.Events;
+using CRCQRS.Application.Services;
 using CRCQRS.Common;
 using CRCQRS.Domain;
 using MediatR;
@@ -8,11 +11,14 @@ namespace CRCQRS.Application.Commands.Handlers
 {
   public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, ResponseResult>
   {
+    private readonly IMediator _mediator;
     private readonly UserManager<ApplicationUser> _userManager;
-
-    public RegisterUserCommandHandler(UserManager<ApplicationUser> userManager)
+    private readonly IUserInfoService _userSrv;
+    public RegisterUserCommandHandler(UserManager<ApplicationUser> userManager, IUserInfoService userSrv, IMediator mediator)
     {
       _userManager = userManager;
+      _userSrv = userSrv;
+      _mediator = mediator;
     }
 
     public async Task<ResponseResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
@@ -30,6 +36,10 @@ namespace CRCQRS.Application.Commands.Handlers
         response.Success = true;
         response.Message = "User registered successfully";
         response.StatusCode = HttpStatusCode.OK;
+        UserInfo userInfo = await _userSrv.GetUserInfo();
+        string statement = $"User: {userInfo.UserName} (ID: {userInfo.UserID}) registered a user by role Customer on: {DateTime.Now}";
+        await _mediator.Publish(new LoggingEvent("Information", statement, DateTime.UtcNow, userInfo.UserID, user));
+
         //response.Data = new UserDto
         //{
         //  UserId = user.Id.ToString(),

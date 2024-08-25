@@ -15,7 +15,7 @@ namespace CRCQRS.Infrastructure
     public DbSet<BookingCar> BookingCars { get; set; }
     public DbSet<AppFile> AppFiles { get; set; }
     public DbSet<CarFile> CarFiles { get; set; }
-
+    public DbSet<LogEntry> LogEntries { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
       base.OnModelCreating(modelBuilder);
