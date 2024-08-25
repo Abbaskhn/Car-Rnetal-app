@@ -88,3 +88,5 @@ UpgradeLog.htm
 .idea
 mono_crash.*.json
 mono_crash.*.blob
+/CarRental/CRCQRS.Infrastructure/appsettings.json
+/CarRental/CRCQRS.API/appsettings.json
