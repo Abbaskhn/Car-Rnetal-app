@@ -21,5 +21,14 @@ namespace CRCQRS.API.Controllers
       }
       return await RunCommand(command);
     }
+    [HttpPost("update")]
+    public async Task<IActionResult> Update([FromForm] UpdateFileCommand command)
+    {
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+      return await RunCommand(command);
+    }
   }
 }

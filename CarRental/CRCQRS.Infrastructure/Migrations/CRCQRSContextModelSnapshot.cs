@@ -4,19 +4,16 @@ using CRCQRS.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
+namespace CRCQRS.Infrastructure.Migrations
 {
     [DbContext(typeof(CRCQRSContext))]
-    [Migration("20240823124600_InitialCreateForSqlServer")]
-    partial class InitialCreateForSqlServer
+    partial class CRCQRSContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

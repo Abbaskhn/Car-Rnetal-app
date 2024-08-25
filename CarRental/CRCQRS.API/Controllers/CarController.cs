@@ -23,6 +23,15 @@ namespace CRCQRS.API.Controllers
       }
       return await RunCommand(command);
     }
+    [HttpPut("Update")]
+    public async Task<IActionResult> Update(UpdateCarCommand command)
+    {
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
+      return await RunCommand(command);
+    }
     [HttpGet("GetAll")]
     public async Task<IActionResult> GetAll()
     {

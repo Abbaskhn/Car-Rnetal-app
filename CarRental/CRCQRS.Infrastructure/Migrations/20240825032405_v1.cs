@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
+namespace CRCQRS.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreateForSqlServer : Migration
+    public partial class v1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
