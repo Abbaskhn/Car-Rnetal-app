@@ -34,15 +34,13 @@ namespace CRCQRS.Application.Commands.Handlers
       var response = new ResponseResult();
 
       // Find the vendor using the provided Id
-      var vendor = await _context.Users.FindAsync(new object[] { request.Id }, cancellationToken);
+      var vendor = await _context.Users.FindAsync(new object[] { request.VendorId }, cancellationToken);
 
       if (vendor != null)
       {
-        // Remove the vendor from the database
         _context.Users.Remove(vendor);
         await _context.SaveChangesAsync(cancellationToken);
 
-        // Fetch user info for logging
         UserInfo userInfo = await _userSrv.GetUserInfo();
 
         response.Success = true;
@@ -57,7 +55,7 @@ namespace CRCQRS.Application.Commands.Handlers
       {
         response.Success = false;
         response.Message = "Vendor deletion failed: Vendor not found";
-        response.StatusCode = HttpStatusCode.NotFound;  // Use 404 to indicate that the vendor was not found
+        response.StatusCode = HttpStatusCode.NotFound; 
         response.Data = null;
       }
 

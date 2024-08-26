@@ -29,7 +29,6 @@ namespace CRCQRS.Application.Commands.Handlers
         return response;
       }
 
-      // Find the existing file by ID
       var appFile = await _context.AppFiles.FindAsync(new object[] { request.AppFileId }, cancellationToken);
       if (appFile == null)
       {
@@ -41,7 +40,6 @@ namespace CRCQRS.Application.Commands.Handlers
 
       using (var ms = new MemoryStream())
       {
-        // Update the file data
         await request.File.CopyToAsync(ms, cancellationToken);
 
         appFile.FileName = request.File.FileName;

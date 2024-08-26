@@ -1,5 +1,6 @@
 using AppCOG.Application.Commands;
 using CRCQRS.Application.Commands;
+using CRCQRS.Application.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,14 +30,28 @@ namespace CRCQRS.API.Controllers
     {
       return await RunCommand(command);
     }
-    [HttpDelete("Delete")]
-    public async Task<IActionResult> Delete(DeleteVendorCommand command)
+    [HttpPut("update/{id}")]
+    public async Task<IActionResult> Update(int id, UpdateVendorCommand command)
     {
-      if (!ModelState.IsValid)
-      {
-        return BadRequest(ModelState);
-      }
-      return await RunCommand(command);
+       command = new UpdateVendorCommand { VendorId = id };
+      var result = await _mediator.Send(command);
+      return Ok(result);
     }
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+      var query = new GetAllVendorQuery();
+      var result = await _mediator.Send(query);
+      return Ok(result);
+      
+    }
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+      var command = new DeleteVendorCommand { VendorId = id };
+      var result = await _mediator.Send(command);
+      return Ok(result);
+    }
+
   }
 }

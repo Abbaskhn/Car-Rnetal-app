@@ -51,13 +51,12 @@ namespace CRCQRS.Application.Commands.Handlers
         return response;
       }
 
-      // Update car properties
+    
       objCar.CarName = request.CarName;
       objCar.Model = request.Model;
       objCar.Rentalprice = request.Rentalprice;
       objCar.VendorId = userId;
 
-      // Check if a new file is provided and handle the file update
       if (request.File != null && request.File.Length > 0)
       {
         var updateFileCommand = new UpdateFileCommand

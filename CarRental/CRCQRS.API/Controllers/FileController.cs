@@ -21,14 +21,20 @@ namespace CRCQRS.API.Controllers
       }
       return await RunCommand(command);
     }
-    [HttpPost("update")]
-    public async Task<IActionResult> Update([FromForm] UpdateFileCommand command)
+ 
+    [HttpPut("Update/{id}")]
+    public async Task<IActionResult> Update([FromBody] UpdateFileCommand command, int id)
     {
       if (!ModelState.IsValid)
       {
         return BadRequest(ModelState);
       }
-      return await RunCommand(command);
+
+      command.AppFileId = id;
+
+      var result = await _mediator.Send(command);
+      return Ok(result);
     }
+
   }
 }

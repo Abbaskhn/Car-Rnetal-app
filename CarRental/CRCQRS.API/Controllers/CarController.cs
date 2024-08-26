@@ -28,17 +28,20 @@ namespace CRCQRS.API.Controllers
       var result = await _mediator.Send(command);
       return Ok(result);
     }
-
-    [HttpPut("Update")]
-    public async Task<IActionResult> Update([FromBody] UpdateCarCommand command)
+    [HttpPut("Update/{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] UpdateCarCommand command)
     {
       if (!ModelState.IsValid)
       {
         return BadRequest(ModelState);
       }
+
+      command.CarId = id;
+
       var result = await _mediator.Send(command);
       return Ok(result);
     }
+
 
     [HttpDelete("Delete/{id}")]
     public async Task<IActionResult> Delete(int id)

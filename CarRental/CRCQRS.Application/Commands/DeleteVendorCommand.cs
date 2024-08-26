@@ -4,7 +4,7 @@ namespace CRCQRS.Application.Commands
 {
   public class DeleteVendorCommand : IRequest<ResponseResult>
   {
-    public long Id { get; set; }
+    public long VendorId { get; set; }
 
   }
 }
