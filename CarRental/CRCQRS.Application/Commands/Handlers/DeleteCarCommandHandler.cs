@@ -13,20 +13,20 @@ using System.Security.Claims;
 
 namespace CRCQRS.Application.Commands.Handlers
 {
-  public class UpdateCarCommandHandler : IRequestHandler<UpdateCarCommand, ResponseResult>
+  public class DeleteCarCommandHandler : IRequestHandler<DeleteCarCommand, ResponseResult>
   {
-    IUserInfoService _userSrv;
+    private readonly IUserInfoService _userSrv;
     private readonly CRCQRSContext _context;
     private readonly IMediator _mediator;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    public UpdateCarCommandHandler(CRCQRSContext context, IMediator mediater, IUserInfoService userSrv, IHttpContextAccessor httpContextAccessor)
+    public DeleteCarCommandHandler(CRCQRSContext context, IMediator mediater, IUserInfoService userSrv, IHttpContextAccessor httpContextAccessor)
     {
       _userSrv = userSrv;
       _context = context;
       _mediator = mediater;
       _httpContextAccessor = httpContextAccessor;
     }
-    public async Task<ResponseResult> Handle(UpdateCarCommand request, CancellationToken cancellationToken)
+    public async Task<ResponseResult> Handle(DeleteCarCommand request, CancellationToken cancellationToken)
     {
       var response = new ResponseResult();
       var userId = GetUserIdFromToken();
@@ -40,52 +40,27 @@ namespace CRCQRS.Application.Commands.Handlers
       }
 
       // Find the existing car
-      var objCar = await _context.Cars.FindAsync(new object[] { request.CarId }, cancellationToken);
+      var objCar = await _context.Cars.FindAsync(  request.CarId , cancellationToken);
 
       if (objCar == null)
       {
         response.Success = false;
         response.Message = "Car not found.";
         response.StatusCode = HttpStatusCode.NotFound;
-
         return response;
       }
 
-      // Update car properties
-      objCar.CarName = request.CarName;
-      objCar.Model = request.Model;
-      objCar.Rentalprice = request.Rentalprice;
-      objCar.VendorId = userId;
 
-      // Check if a new file is provided and handle the file update
-      if (request.File != null && request.File.Length > 0)
-      {
-        var updateFileCommand = new UpdateFileCommand
-        {
-          AppFileId = request.FileId,
-          File = request.File
-          
-        };
-
-        var fileUpdateResult = await _mediator.Send(updateFileCommand, cancellationToken);
-
-        if (!fileUpdateResult.Success)
-        {
-          return fileUpdateResult;  
-        }
-
-   
-      }
+      _context.Remove(objCar);
 
       await _context.SaveChangesAsync(cancellationToken);
 
       response.Success = true;
       UserInfo userInfo = await _userSrv.GetUserInfo();
-      response.Message = "Car updated successfully";
+      response.Message = "Car Delete successfully";
       response.StatusCode = HttpStatusCode.OK;
       response.Data = objCar;
-
-      string statement = $"User: {userInfo.UserName} (ID: {userInfo.UserID}) Update a car on: {DateTime.Now}";
+      string statement = $"User: {userInfo.UserName} (ID: {userInfo.UserID}) Delete a car on: {DateTime.Now}";
       await _mediator.Publish(new LoggingEvent("Information", statement, DateTime.UtcNow, userInfo.UserID, objCar));
       return response;
     }

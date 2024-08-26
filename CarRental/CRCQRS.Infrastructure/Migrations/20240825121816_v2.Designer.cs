@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
+namespace CRCQRS.Infrastructure.Migrations
 {
     [DbContext(typeof(CRCQRSContext))]
-    [Migration("20240825045918_InitialCreateForSqlServer2")]
-    partial class InitialCreateForSqlServer2
+    [Migration("20240825121816_v2")]
+    partial class v2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -298,8 +298,8 @@ namespace CRCQRS.Infrastructure.Migrations.SqlServerMigrations
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 

@@ -23,9 +23,19 @@ namespace CRCQRS.API.Controllers
     {
       return await RunCommand(command);
     }
+  
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginUserCommand command)
     {
+      return await RunCommand(command);
+    }
+    [HttpDelete("Delete")]
+    public async Task<IActionResult> Delete(DeleteVendorCommand command)
+    {
+      if (!ModelState.IsValid)
+      {
+        return BadRequest(ModelState);
+      }
       return await RunCommand(command);
     }
   }
