@@ -45,6 +45,16 @@ namespace CRCQRS.API.Controllers
       return Ok(result);
       
     }
+    [HttpGet("GetById/{id}")]
+    public async Task<IActionResult> GetById( int id)
+    {
+     var command = new GetVendorByIdQuery
+      {
+        Id = id
+      };
+      var result=await _mediator.Send(command);
+      return Ok(result);
+    }
     [HttpDelete("delete/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
