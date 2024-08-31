@@ -34,12 +34,10 @@ namespace CRCQRS.Application.Commands.Handlers
         await _userManager.AddToRoleAsync(user, "Customer");
 
         response.Success = true;
+    
         response.Message = "User registered successfully";
         response.StatusCode = HttpStatusCode.OK;
-        UserInfo userInfo = await _userSrv.GetUserInfo();
-        string statement = $"User: {userInfo.UserName} (ID: {userInfo.UserID}) registered a user by role Customer on: {DateTime.Now}";
-        await _mediator.Publish(new LoggingEvent("Information", statement, DateTime.UtcNow, userInfo.UserID, user));
-
+        
         //response.Data = new UserDto
         //{
         //  UserId = user.Id.ToString(),

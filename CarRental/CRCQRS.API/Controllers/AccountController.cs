@@ -30,14 +30,14 @@ namespace CRCQRS.API.Controllers
     {
       return await RunCommand(command);
     }
-    [HttpPut("update/{id}")]
-    public async Task<IActionResult> Update(int id, UpdateVendorCommand command)
+    [HttpPut("updateVendor/{id}")]
+    public async Task<IActionResult> Update(UpdateVendorCommand command)
     {
-       command = new UpdateVendorCommand { VendorId = id };
+       
       var result = await _mediator.Send(command);
       return Ok(result);
     }
-    [HttpGet]
+    [HttpGet("GetAllVendor")]
     public async Task<IActionResult> GetAll()
     {
       var query = new GetAllVendorQuery();
@@ -45,17 +45,17 @@ namespace CRCQRS.API.Controllers
       return Ok(result);
       
     }
-    [HttpGet("GetById/{id}")]
-    public async Task<IActionResult> GetById( int id)
+    [HttpGet("VendorGetById/{id}")]
+    public async Task<IActionResult> GetById( int id, GetVendorByIdQuery command)
     {
-     var command = new GetVendorByIdQuery
+     command = new GetVendorByIdQuery
       {
         Id = id
       };
       var result=await _mediator.Send(command);
       return Ok(result);
     }
-    [HttpDelete("delete/{id}")]
+    [HttpDelete("deleteVendor/{id}")]
     public async Task<IActionResult> Delete(int id)
     {
       var command = new DeleteVendorCommand { VendorId = id };

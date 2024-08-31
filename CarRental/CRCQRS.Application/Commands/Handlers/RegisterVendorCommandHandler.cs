@@ -2,6 +2,7 @@ using CRCQRS.Common;
 using CRCQRS.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace CRCQRS.Application.Commands.Handlers
@@ -23,7 +24,7 @@ namespace CRCQRS.Application.Commands.Handlers
         UserName = request.UserName,
         Email = request.Email,
         Company = request.Company,
-        IsActive = true,
+      
         CreatedDate = DateTime.Now
       };
 
@@ -33,16 +34,11 @@ namespace CRCQRS.Application.Commands.Handlers
       if (result.Succeeded)
       {
         await _userManager.AddToRoleAsync(vendor, "Vendor");
-
+      
         response.Success = true;
         response.Message = "Vendor registered successfully";
         response.StatusCode = HttpStatusCode.OK;
-        //response.Data = new UserDto
-        //{
-        //  UserId = user.Id.ToString(),
-        //  UserName = user.UserName,
-        //  Email = user.Email
-        //};
+   
       }
       else
       {
@@ -51,7 +47,7 @@ namespace CRCQRS.Application.Commands.Handlers
         response.StatusCode = HttpStatusCode.BadRequest;
         response.Data = result.Errors;
       }
-
+    
       return response;
     }
 

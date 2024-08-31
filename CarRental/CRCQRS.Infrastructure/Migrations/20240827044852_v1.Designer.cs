@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRCQRS.Infrastructure.Migrations
 {
     [DbContext(typeof(CRCQRSContext))]
-    [Migration("20240825121816_v2")]
-    partial class v2
+    [Migration("20240827044852_v1")]
+    partial class v1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
