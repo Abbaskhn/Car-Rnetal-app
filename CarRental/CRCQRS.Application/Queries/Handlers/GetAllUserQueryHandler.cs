@@ -7,23 +7,23 @@ using Microsoft.EntityFrameworkCore;
 using System.Net;
 namespace AppCOG.Application.Queries.Handlers
 {
-  public class GetAllVendorQueryHandler : IRequestHandler<GetAllVendorQuery, ResponseResult>
+  public class GetAllUserQueryHandler : IRequestHandler<GetAllUserQuery, ResponseResult>
   {
     private readonly CRCQRSContext _context;
 
-    public GetAllVendorQueryHandler(CRCQRSContext context)
+    public GetAllUserQueryHandler(CRCQRSContext context)
     {
       _context = context;
     }
 
-    public async Task<ResponseResult> Handle(GetAllVendorQuery request, CancellationToken cancellationToken)
+    public async Task<ResponseResult> Handle(GetAllUserQuery request, CancellationToken cancellationToken)
     {
       var response = new ResponseResult();
 
-      var vendor = await _context.Vendors.ToListAsync();
+      var vendor = await _context.Users.ToListAsync();
 
       response.Success = true;
-      response.Message = "Vendors retrieved successfully";
+      response.Message = "Users retrieved successfully";
       response.StatusCode = HttpStatusCode.OK;
       response.Data = vendor;
       response.TotalRecords = vendor.Count;

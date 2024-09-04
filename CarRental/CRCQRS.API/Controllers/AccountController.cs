@@ -37,8 +37,40 @@ namespace CRCQRS.API.Controllers
       var result = await _mediator.Send(command);
       return Ok(result);
     }
+    [HttpPut("updateCustomer/{id}")]
+    public async Task<IActionResult> Update(UpdateUserCommand command)
+    {
+
+      var result = await _mediator.Send(command);
+      return Ok(result);
+    }
+    [HttpGet("GetAllCustomer")]
+    public async Task<IActionResult> GetAllUser()
+    {
+      var query = new GetAllUserQuery();
+      var result = await _mediator.Send(query);
+      return Ok(result);
+
+    }
+    [HttpGet("CustomerGetById/{id}")]
+    public async Task<IActionResult> GetById(int id, GetUserByIdQuery command)
+    {
+      command = new GetUserByIdQuery
+      {
+        UserId = id
+      };
+      var result = await _mediator.Send(command);
+      return Ok(result);
+    }
+    [HttpDelete("deleteCustomer/{id}")]
+    public async Task<IActionResult> DeleteUser(int id)
+    {
+      var command = new DeleteUserCommand { UserId = id };
+      var result = await _mediator.Send(command);
+      return Ok(result);
+    }
     [HttpGet("GetAllVendor")]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAllVendor()
     {
       var query = new GetAllVendorQuery();
       var result = await _mediator.Send(query);
@@ -56,7 +88,7 @@ namespace CRCQRS.API.Controllers
       return Ok(result);
     }
     [HttpDelete("deleteVendor/{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> DeleteVendor(int id)
     {
       var command = new DeleteVendorCommand { VendorId = id };
       var result = await _mediator.Send(command);

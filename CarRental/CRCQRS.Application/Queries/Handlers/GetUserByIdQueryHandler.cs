@@ -9,35 +9,35 @@ using System.Threading.Tasks;
 
 namespace AppCOG.Application.Queries.Handlers
 {
-  public class GetVendorByIdCarsQueryHandler : IRequestHandler<GetVendorByIdQuery, ResponseResult>
+  public class GetUserByIdCarsQueryHandler : IRequestHandler<GetUserByIdQuery, ResponseResult>
   {
     private readonly CRCQRSContext _context;
 
-    public GetVendorByIdCarsQueryHandler(CRCQRSContext context)
+    public GetUserByIdCarsQueryHandler(CRCQRSContext context)
     {
       _context = context;
     }
 
-    public async Task<ResponseResult> Handle(GetVendorByIdQuery request, CancellationToken cancellationToken)
+    public async Task<ResponseResult> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
       var response = new ResponseResult();
 
       // Use await to properly handle asynchronous operations
-      var vendor = await _context.Vendors.FirstOrDefaultAsync(c => c.Id == request.Id, cancellationToken);
+      var user = await _context.Users.FirstOrDefaultAsync(c => c.Id == request.UserId, cancellationToken);
 
-      if (vendor == null)
+      if (user == null)
       {
         response.Success = false;
-        response.Message = "Vendor not found";
+        response.Message = "Customer not found";
         response.StatusCode = HttpStatusCode.NotFound;
         response.Data = null;
       }
       else
       {
         response.Success = true;
-        response.Message = "Vendor GET By Id successfully";
+        response.Message = "Customer GET By Id successfully";
         response.StatusCode = HttpStatusCode.OK;
-        response.Data = vendor;
+        response.Data = user;
       }
 
       return response;
