@@ -1,10 +1,14 @@
+using AppCOG.Application.Commands;
 using CRCQRS.API.DataSeeding;
+using CRCQRS.Application.Commands;
 using CRCQRS.Application.Commands.Handlers;
 using CRCQRS.Application.Services;
+using CRCQRS.Common;
 using CRCQRS.Domain;
 using CRCQRS.DTO;
 using CRCQRS.Infrastructure;
 using CRCQRS.Infrastructure.Services;
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -32,7 +36,42 @@ namespace CRCQRS.API
                 .AddEntityFrameworkStores<CRCQRSContext>()
                 .AddDefaultTokenProviders();
       builder.Services.AddScoped<IDataSeeder, DataSeeder>();
-      builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<RegisterUserCommandHandler>());
+      // builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<RegisterUserCommandHandler>());
+
+      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<DeleteBookingCommand, ResponseResult>, DeleteBookingCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<DeleteCarCommand, ResponseResult>, DeleteCarCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       builder.Services.AddScoped<IUserInfoService, UserInfoService>();
       builder.Services.AddScoped<IStripeService, StripeService>();
       // builder.Services.AddAuthentication();
