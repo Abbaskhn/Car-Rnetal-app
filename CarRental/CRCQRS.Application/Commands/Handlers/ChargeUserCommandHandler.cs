@@ -37,12 +37,12 @@ namespace CRCQRS.Application.Commands.Handlers
 
       UserInfo userInfo = await _userSrv.GetUserInfo();
       response.Success = true;
-      response.Message = "Car Added successfully";
+      response.Message = Constants.Messages.CAR_ADDED_SUCCESSFULLY;
       response.StatusCode = HttpStatusCode.OK;
       response.Data = result;
 
       string statement = $"User: {userInfo.UserName} (ID: {userInfo.UserID}) Paid using stripe for car rent, on: {DateTime.Now}";
-      await _mediator.Publish(new LoggingEvent("Information", statement, DateTime.UtcNow, userInfo.UserID, result));
+      await _mediator.Publish(new LoggingEvent(Constants.LogLevels.INFORMATION, statement, DateTime.UtcNow, userInfo.UserID, result));
 
       return response;
     }

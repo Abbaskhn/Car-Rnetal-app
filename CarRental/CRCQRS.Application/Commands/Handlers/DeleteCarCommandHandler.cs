@@ -2,11 +2,9 @@ using CRCQRS.Application.DTO;
 using CRCQRS.Application.Events;
 using CRCQRS.Application.Services;
 using CRCQRS.Common;
-using CRCQRS.Domain;
 using CRCQRS.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Security.Claims;
@@ -40,7 +38,7 @@ namespace CRCQRS.Application.Commands.Handlers
       }
 
       // Find the existing car
-      var objCar = await _context.Cars.FindAsync(  request.CarId , cancellationToken);
+      var objCar = await _context.Cars.FindAsync(request.CarId, cancellationToken);
 
       if (objCar == null)
       {
@@ -66,7 +64,7 @@ namespace CRCQRS.Application.Commands.Handlers
     }
     private long GetUserIdFromToken()
     {
-      var accessToken = _httpContextAccessor.HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+      var accessToken = _httpContextAccessor.HttpContext.Request.Headers[Constants.Authorization.AUTHORIZATION_HEADER].ToString().Replace(Constants.Authorization.TOKEN_TYPE, "");
       var tokenHandler = new JwtSecurityTokenHandler();
       var jwtToken = tokenHandler.ReadToken(accessToken) as JwtSecurityToken;
 
