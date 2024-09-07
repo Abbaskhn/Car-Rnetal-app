@@ -41,7 +41,7 @@ namespace CRCQRS.Application.Commands.Handlers
       if (booking == null)
       {
         response.Success = false;
-        response.Message = "Booking not found";
+        response.Message = Constants.Messages.BOOKING_NOT_FOUND;
         response.StatusCode = HttpStatusCode.NotFound;
         return response;
       }
@@ -51,7 +51,7 @@ namespace CRCQRS.Application.Commands.Handlers
       await _context.SaveChangesAsync(cancellationToken);
 
       response.Success = true;
-      response.Message = "Booking deleted successfully";
+      response.Message = Constants.Messages.BOOKING_ADDED_SUCCESSFULLY;
       response.StatusCode = HttpStatusCode.OK;
 
       return response;

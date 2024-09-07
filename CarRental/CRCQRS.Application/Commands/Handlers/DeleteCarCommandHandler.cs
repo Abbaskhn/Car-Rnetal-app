@@ -1,4 +1,4 @@
-using CRCQRS.Application.DTO;
+  using CRCQRS.Application.DTO;
 using CRCQRS.Application.Events;
 using CRCQRS.Application.Services;
 using CRCQRS.Common;
@@ -32,7 +32,7 @@ namespace CRCQRS.Application.Commands.Handlers
       if (userId == null)
       {
         response.Success = false;
-        response.Message = "User is not authorized.";
+        response.Message = Constants.Messages.USER_AUTHORIZATION;
         response.StatusCode = HttpStatusCode.Unauthorized;
         return response;
       }
@@ -43,7 +43,7 @@ namespace CRCQRS.Application.Commands.Handlers
       if (objCar == null)
       {
         response.Success = false;
-        response.Message = "Car not found.";
+        response.Message = Constants.Messages.CAR_NOTFOUND_MSG;
         response.StatusCode = HttpStatusCode.NotFound;
         return response;
       }
@@ -55,11 +55,11 @@ namespace CRCQRS.Application.Commands.Handlers
 
       response.Success = true;
       UserInfo userInfo = await _userSrv.GetUserInfo();
-      response.Message = "Car Delete successfully";
+      response.Message = Constants.Messages.CAR_ADDED_MSG;
       response.StatusCode = HttpStatusCode.OK;
       response.Data = objCar;
       string statement = $"User: {userInfo.UserName} (ID: {userInfo.UserID}) Delete a car on: {DateTime.Now}";
-      await _mediator.Publish(new LoggingEvent("Information", statement, DateTime.UtcNow, userInfo.UserID, objCar));
+      await _mediator.Publish(new LoggingEvent(Constants.LogLevels.INFORMATION, statement, DateTime.UtcNow, userInfo.UserID, objCar));
       return response;
     }
     private long GetUserIdFromToken()

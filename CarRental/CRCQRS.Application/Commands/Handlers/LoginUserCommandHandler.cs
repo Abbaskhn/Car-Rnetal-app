@@ -32,7 +32,7 @@ namespace CRCQRS.Application.Commands.Handlers
         var roles = await _userManager.GetRolesAsync(user);
         var token = GenerateJwtToken(user);
         response.Success = true;
-        response.Message = "Login successful";
+        response.Message = Constants.Messages.LOGIN_MESSAGE;
         response.StatusCode = HttpStatusCode.OK;
         response.Data = new
         {
@@ -45,7 +45,7 @@ namespace CRCQRS.Application.Commands.Handlers
       else
       {
         response.Success = false;
-        response.Message = "Invalid credentials";
+        response.Message = Constants.Messages.INVALID_CREDENTIAL_MEASSAGE;
         response.StatusCode = HttpStatusCode.Unauthorized;
       }
 

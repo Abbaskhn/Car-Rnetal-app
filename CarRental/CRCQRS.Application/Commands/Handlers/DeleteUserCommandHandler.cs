@@ -44,7 +44,7 @@ namespace CRCQRS.Application.Commands.Handlers
     
 
         response.Success = true;
-        response.Message = "Customer deleted successfully";
+        response.Message = Constants.Messages.CUSTOMER_DELETED_MESSAGE;
         response.StatusCode = HttpStatusCode.OK;
 
        
@@ -52,7 +52,7 @@ namespace CRCQRS.Application.Commands.Handlers
       else
       {
         response.Success = false;
-        response.Message = "Customer deletion failed: Vendor not found";
+        response.Message = Constants.Messages.CUSTOMER_NOT_MESSAGE;
         response.StatusCode = HttpStatusCode.NotFound; 
         response.Data = null;
       }

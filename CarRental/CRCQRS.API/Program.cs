@@ -1,7 +1,9 @@
 using AppCOG.Application.Commands;
+using AppCOG.Application.Queries.Handlers;
 using CRCQRS.API.DataSeeding;
 using CRCQRS.Application.Commands;
 using CRCQRS.Application.Commands.Handlers;
+using CRCQRS.Application.Queries;
 using CRCQRS.Application.Services;
 using CRCQRS.Common;
 using CRCQRS.Domain;
@@ -19,7 +21,7 @@ namespace CRCQRS.API
     public static void Main(string[] args)
     {
       var builder = WebApplication.CreateBuilder(args);
-      builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("StripeSettings"));
+      builder.Services.Configure<CRCQRS.Common.StripeSettings>(builder.Configuration.GetSection("StripeSettings"));
 
       builder.Services.AddCors(options =>
       {
@@ -41,23 +43,30 @@ namespace CRCQRS.API
       builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
       builder.Services.AddTransient<IRequestHandler<DeleteBookingCommand, ResponseResult>, DeleteBookingCommandHandler>();
       builder.Services.AddTransient<IRequestHandler<DeleteCarCommand, ResponseResult>, DeleteCarCommandHandler>();
-      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
-      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
-      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
-      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
-      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
-      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
-      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
-      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
-      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
-      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
-      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
-      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
-      builder.Services.AddTransient<IRequestHandler<ChargeUserCommand, ResponseResult>, ChargeUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<DeleteUserCommand, ResponseResult>, DeleteUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<DeleteVendorCommand, ResponseResult>, DeleteVendorCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<LoginUserCommand, ResponseResult>, LoginUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<RegisterBookingCommand, ResponseResult>, RegisterBookingCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<RegisterCarCommand, ResponseResult>, RegisterCarCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<RegisterUserCommand, ResponseResult>, RegisterUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<RegisterVendorCommand, ResponseResult>, RegisterVendorCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<UpdateBookingCommand, ResponseResult>, UpdateBookingCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<UpdateCarCommand, ResponseResult>, UpdateCarCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<UpdateFileCommand, ResponseResult>, UpdateFileCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<UpdateUserCommand, ResponseResult>, UpdateUserCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<UpdateVendorCommand, ResponseResult>, UpdateVendorCommandHandler>();
+      builder.Services.AddTransient<IRequestHandler<UploadFileCommand, ResponseResult>, UploadFileCommandHandler>();
 
 
 
-
+      builder.Services.AddTransient<IRequestHandler<GetAllBookingsQuery, ResponseResult >, GetAllBookingQueryHandler>();
+      builder.Services.AddTransient<IRequestHandler<GetAllCarsQuery, ResponseResult>, GetAllCarsQueryHandler>();
+      builder.Services.AddTransient<IRequestHandler<GetAllUserQuery, ResponseResult>, GetAllUserQueryHandler>();
+      builder.Services.AddTransient<IRequestHandler<GetAllVendorQuery, ResponseResult>, GetAllVendorQueryHandler>();
+      builder.Services.AddTransient<IRequestHandler<GetBookingByIdQuery, ResponseResult>, GetBookingByIdQueryHandler>();
+      builder.Services.AddTransient<IRequestHandler<GetCarsByIdQuery, ResponseResult>, GetCarsByIdCarsQueryHandler>();
+      builder.Services.AddTransient<IRequestHandler<GetUserByIdQuery, ResponseResult>, GetUserByIdCarsQueryHandler>();
+      builder.Services.AddTransient<IRequestHandler<GetVendorByIdQuery, ResponseResult>, GetVendorByIdCarsQueryHandler>();
 
 
 

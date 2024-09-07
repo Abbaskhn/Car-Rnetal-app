@@ -44,17 +44,17 @@ namespace CRCQRS.Application.Commands.Handlers
         UserInfo userInfo = await _userSrv.GetUserInfo();
 
         response.Success = true;
-        response.Message = "Vendor deleted successfully";
+        response.Message = Constants.Messages.VENDOR_DELETED_MESSAGE;
         response.StatusCode = HttpStatusCode.OK;
 
         // Log the deletion event
         string statement = $"User: {userInfo.UserName} (ID: {userInfo.UserID}) deleted a vendor with ID: {vendor.Id} on: {DateTime.Now}";
-        await _mediator.Publish(new LoggingEvent("Information", statement, DateTime.UtcNow, userInfo.UserID, vendor));
+        await _mediator.Publish(new LoggingEvent(Constants.LogLevels.INFORMATION, statement, DateTime.UtcNow, userInfo.UserID, vendor));
       }
       else
       {
         response.Success = false;
-        response.Message = "Vendor deletion failed: Vendor not found";
+        response.Message = Constants.Messages.VENDOR_NOTFOUND_MESSAGE;
         response.StatusCode = HttpStatusCode.NotFound; 
         response.Data = null;
       }
