@@ -230,6 +230,9 @@ namespace CRCQRS.Infrastructure.Migrations
                     b.Property<string>("CarName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
+
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 

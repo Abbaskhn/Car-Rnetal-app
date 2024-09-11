@@ -35,7 +35,7 @@ namespace CRCQRS.Domain
     public long VendorId { get; set; }
     public virtual Vendor VendorUser { get; set; }
     public int Model { get; set; }
-
+    public long CreatedBy { get; set; }
     public string CarName { get; set; }
 
     public int Rentalprice { get; set; }

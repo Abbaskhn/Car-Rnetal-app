@@ -8,6 +8,7 @@ namespace CRCQRS.Application.Commands
     public int Model { get; set; }
     public string CarName { get; set; }
     public int Rentalprice { get; set; }
+      public bool IsAvailable { get; set; }
     public long FileId { get; set; }
     public IFormFile File { get; set; }
   }

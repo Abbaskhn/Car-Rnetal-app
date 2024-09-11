@@ -112,6 +112,7 @@ export class AuthService {
     if (response.token) {
       localStorage.setItem('token', response.token);
       this.currentTokenSubject.next(response.token);
+      console.log('Token stored:', response.token);
     }
   
     if (response.refreshToken) {
@@ -203,18 +204,29 @@ export class AuthService {
 
   private decodeToken(token: string): any {
     try {
-      return JSON.parse(atob(token.split('.')[1]));
+      const base64Url = token.split('.')[1]; // Token has 3 parts, payload is the second part
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
     } catch (error) {
+      console.error('Token decoding failed:', error);
       return null;
     }
   }
+  
 
   public getCurrentUserRole(): string | null {
     const token = this.getToken();
     if (token) {
       const decodedToken = this.decodeToken(token);
-      return decodedToken ? decodedToken.role : null;
+      console.log('Decoded token:', decodedToken);  // Debugging line
+      return decodedToken && decodedToken.role ? decodedToken.role : null;
     }
     return null;
   }
+  
+  
+
 }

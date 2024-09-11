@@ -27,10 +27,12 @@ namespace CRCQRS.Application.Commands.Handlers
         response.StatusCode = HttpStatusCode.NotFound;
         return response;
       }
-
-    
       user.UserName = request.UserName;
       user.Email = request.Email;
+      user.Name = request.Name;
+      user.Phone = request.Phone;
+      user.Address = request.Address;
+
 
       if (!string.IsNullOrEmpty(request.Password))
       {

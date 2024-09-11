@@ -36,8 +36,7 @@ namespace CRCQRS.API.Controllers
         return BadRequest(ModelState);
       }
 
-      command.CarId = id;
-
+       command = new UpdateCarCommand { CarId = id };
       var result = await _mediator.Send(command);
       return Ok(result);
     }

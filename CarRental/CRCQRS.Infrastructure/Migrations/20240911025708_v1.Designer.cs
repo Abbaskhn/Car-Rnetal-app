@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CRCQRS.Infrastructure.Migrations
 {
     [DbContext(typeof(CRCQRSContext))]
-    [Migration("20240827044852_v1")]
+    [Migration("20240911025708_v1")]
     partial class v1
     {
         /// <inheritdoc />
@@ -232,6 +232,9 @@ namespace CRCQRS.Infrastructure.Migrations
 
                     b.Property<string>("CarName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");

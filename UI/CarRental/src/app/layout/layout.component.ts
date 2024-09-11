@@ -33,9 +33,7 @@ export class LayoutComponent implements OnInit{
     this.sidenav = !this.sidenav;
   }
 
-  vendcust(){
-    this.router.navigate(['/vendor-cust']);
-  }
+ 
   Car(){
     this.router.navigate(['/car']);
   }

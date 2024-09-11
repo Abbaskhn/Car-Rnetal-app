@@ -7,11 +7,11 @@ import { Observable } from 'rxjs';
 })
 export class CustomerService {
 
-  private apiurl = "https://localhost:7066/api/Customer"
+  private apiurl = "https://localhost:7104/Account"
   constructor(private http: HttpClient) { }
 
   getData(): Observable<any> {
-    return this.http.get(this.apiurl+"")
+    return this.http.get(this.apiurl+"/GetAllCustomer")
   }
 
   postData(data: any): Observable<any> {

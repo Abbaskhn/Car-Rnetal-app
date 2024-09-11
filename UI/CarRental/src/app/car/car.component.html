@@ -1,34 +1,33 @@
 <div class="container">
   <h1>Car Listings</h1>
-  
+
   <div class="role-buttons">
-    <button *ngIf="isAdmin" (click)="addNewCar()">Add New Car</button>
-    <button *ngIf="isAdmin" (click)="manageSuppliers()">Manage Suppliers</button>
-    <button *ngIf="isVendor" (click)="addCarListing()">Add Car Listing</button>
+    <button *ngIf="hasRole('Admin')" (click)="addNewCar()">Add New Car</button>
+    <button *ngIf="hasRole('Admin')" (click)="manageSuppliers()">Manage Suppliers</button>
+    <button *ngIf="hasRole('Vendor')" (click)="addCarListing()">Add Car Listing</button>
   </div>
-  
+
   <div *ngIf="cars.length > 0; else noCarsMessage" class="card-container">
     <div class="card" *ngFor="let car of cars">
-      <!-- <img [src]="'https://localhost:7066/images/' + car.carImage" alt="{{ car.carName }}"> -->
-      <app-image-viewer [ImageData]="car.carFiles.$values[0].carAppFiles.data"></app-image-viewer>
+      <app-image-viewer *ngIf="getImageData(car)" [ImageData]="getImageData(car)"></app-image-viewer>
 
       <div class="card-content">
         <h2>{{ car.carName }}</h2>
         <p>Model: {{ car.model }}</p>
         <p>Price: {{ car.rentalprice | currency }}</p>
         <div class="card-actions">
-          <ng-container *ngIf="isAdmin || isVendor">
+          <ng-container *ngIf="hasRole('Admin') || hasRole('Vendor')">
             <button (click)="editCar(car.carId)">Edit</button>
             <button (click)="deleteCar(car.carId)">Delete</button>
           </ng-container>
-          <ng-container *ngIf="isCustomer">
+          <ng-container *ngIf="hasRole('Customer')">
             <button (click)="bookCar(car.carId)">Book</button>
           </ng-container>
         </div>
       </div>
     </div>
   </div>
-  
+
   <ng-template #noCarsMessage>
     <p>No cars available.</p>
   </ng-template>

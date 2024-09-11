@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { RegesterComponent } from './regester/regester.component';
-import { VendorCustComponent } from './vendor-cust/vendor-cust.component';
+import { DashboardComponent} from './dashboard/dashboard.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { CustomerComponent } from './customer/customer.component';
 import { CarComponent } from './car/car.component';
@@ -11,18 +11,21 @@ import { BookinglistComponentt } from './bookinglist/bookinglist.component';
 import { CheackoutComponent } from './cheackout/cheackout.component';
 import { LayoutComponent } from './layout/layout.component';
 import { CustomerlistComponent } from './customerlist/customerlist.component';
-import { VendorListComponent } from './vendor-list/vendor-list.component';
+import {  VendorListComponent } from './vendor-list/vendor-list.component';
 
 export const routes: Routes = [
-    { path: '', pathMatch: 'full', redirectTo: 'login' },
+    { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
     { path: 'login', component: LoginComponent },
     { path: 'register', component: RegesterComponent },
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'vendor', component: VendorComponent },
+    { path: 'customer', component: CustomerComponent },
     {
         path: '', 
         component: LayoutComponent, 
         children: [
-            { path: 'vendor-cust', component: VendorCustComponent },
             { path: 'vendorList', component: VendorListComponent },
+          
             { path: 'customerlist', component:CustomerlistComponent },
             { path: 'car', component: CarComponent },
             { path: 'createcar', component: CarCreateComponent },

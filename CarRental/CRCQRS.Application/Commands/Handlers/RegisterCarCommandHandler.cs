@@ -12,17 +12,17 @@ namespace CRCQRS.Application.Commands.Handlers
 {
   public class RegisterCarCommandHandler : IRequestHandler<RegisterCarCommand, ResponseResult>
   {
-    private readonly IMediator _mediator;
     private readonly CRCQRSContext _context;
     private readonly IUserInfoService _userSrv;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IMediator _mediator;
 
     public RegisterCarCommandHandler(CRCQRSContext context, IUserInfoService userSrv, UserManager<ApplicationUser> userManager, IMediator mediator)
     {
       _context = context;
-      _mediator = mediator;
       _userSrv = userSrv;
       _userManager = userManager;
+      _mediator = mediator;
     }
 
     public async Task<ResponseResult> Handle(RegisterCarCommand request, CancellationToken cancellationToken)
@@ -31,7 +31,6 @@ namespace CRCQRS.Application.Commands.Handlers
 
       // Fetch the current user from the UserInfoService
       var userInfo = await _userSrv.GetUserInfo();
-
       if (userInfo == null || userInfo.UserID <= 0)
       {
         response.Success = false;
@@ -50,7 +49,7 @@ namespace CRCQRS.Application.Commands.Handlers
         return response;
       }
 
-
+      // Check if the user is a vendor
       if (!await _userManager.IsInRoleAsync(currentUser, "Vendor"))
       {
         response.Success = false;
@@ -59,38 +58,39 @@ namespace CRCQRS.Application.Commands.Handlers
         return response;
       }
 
-
-      var objCar = new Car
+      // Create the car entity
+      var car = new Car
       {
         CarName = request.CarName,
         Model = request.Model,
         Rentalprice = request.Rentalprice,
+        IsAvailable = request.IsAvailable,
+        CreatedBy = currentUser.Id,
         VendorId = currentUser.Id
       };
 
-      _context.Cars.Add(objCar);
+      _context.Cars.Add(car);
 
-      
-      var objCarFile = new CarFile
+      // Add car file if provided
+      if (request.FileId.HasValue)
       {
-        AppFileId = request.FileId,
-        Car = objCar
-      };
+        var carFile = new CarFile
+        {
+          AppFileId = request.FileId.Value,
+          Car = car
+        };
 
-      _context.CarFiles.Add(objCarFile);
+        _context.CarFiles.Add(carFile);
+      }
 
-      
+      // Save changes to the database
       await _context.SaveChangesAsync(cancellationToken);
 
-   
-      
+      // Set response
       response.Success = true;
       response.Message = "Car added successfully";
       response.StatusCode = HttpStatusCode.OK;
-      response.Data = objCar;
-
-      string statement = $"User: {userInfo.UserName} (ID: {userInfo.UserID}) registered a car on: {DateTime.Now}";
-      await _mediator.Publish(new LoggingEvent("Information", statement, DateTime.UtcNow, userInfo.UserID, objCar));
+      response.Data = car;
 
       return response;
     }

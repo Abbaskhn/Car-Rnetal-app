@@ -4,9 +4,10 @@ namespace CRCQRS.Application.Commands
 {
   public class RegisterCarCommand : IRequest<ResponseResult>
   {
-    public int Model { get; set; }
     public string CarName { get; set; }
+    public int Model { get; set; }
     public int Rentalprice { get; set; }
-    public long FileId { get; set; }
+    public bool IsAvailable { get; set; }
+    public long? FileId { get; set; }
   }
 }

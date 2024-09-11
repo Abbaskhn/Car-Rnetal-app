@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-
 import { CarService } from '../car.service';
 import { CurrencyPipe, NgFor, NgIf } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { AppResponseModel, AppResponseModelExt, AuthService } from '../auth.service';
+import { AppResponseModelExt, AuthService } from '../auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Car } from '../car';
 import { ImageViewerComponent } from '../components/imageViewer.component';
@@ -11,53 +10,48 @@ import { ImageViewerComponent } from '../components/imageViewer.component';
 @Component({
   selector: 'app-car',
   standalone: true,
-  imports: [NgFor,RouterLink,CurrencyPipe,NgIf, ImageViewerComponent],
+  imports: [NgFor, RouterLink, CurrencyPipe, NgIf, ImageViewerComponent],
   templateUrl: './car.component.html',
   styleUrl: './car.component.css'
-})
-export class CarComponent implements OnInit {
+})export class CarComponent implements OnInit {
   cars: Car[] = [];
-  isAdmin: boolean = false;
-  isVendor: boolean = false;
-  isCustomer: boolean = false;
-
 
   constructor(
     private carService: CarService,
     private authService: AuthService,
     private router: Router
-  ) {
-    this.isAdmin = authService.hasUserRole("Admin");
-    this.isVendor = authService.hasUserRole("Vendor");
-    this.isCustomer = authService.hasUserRole("Customer");
-
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.checkRole();
     this.loadCars();
   }
 
-  checkRole(): void {
-    this.isAdmin = this.authService.hasUserRole("Admin");
-    this.isVendor = this.authService.hasUserRole("Vendor");
-    this.isCustomer = this.authService.hasUserRole("Customer");
+  // Method to check if the current user has a specific role
+  hasRole(role: string): boolean {
+    return this.authService.hasUserRole(role);
   }
 
-
   loadCars(): void {
-    this.carService.getCars().subscribe((res: AppResponseModelExt<Car[]>) => {
-      console.log('Received car data:', res); // For debugging
-      this.cars = res.data.$values;
-      console.log('res.data:', res.data); // For debugging
-     // console.log('res.data:', res.data.$values); // For debugging
-    }, error => {
-      console.error('Error loading cars:', error); // For debugging
-    });
+    this.carService.getCars().subscribe(
+      (res: AppResponseModelExt<Car[]>) => {
+        this.cars = res.data.$values;
+      },
+      error => {
+        console.error('Error loading cars:', error);
+      }
+    );
+  }
+
+  getImageData(car: Car): string | null {
+    // Ensure the carFiles and carAppFiles exist and are properly formatted
+    if (car.carFiles?.$values[0]?.carAppFiles?.data) {
+      return car.carFiles.$values[0].carAppFiles.data;
+    }
+    return null;  // Return null if no valid image data is found
   }
 
   addNewCar(): void {
-    if (this.isAdmin) {
+    if (this.hasRole('Admin')) {
       this.router.navigate(['/createcar']);
     } else {
       alert('Access denied. Admins only.');
@@ -65,7 +59,7 @@ export class CarComponent implements OnInit {
   }
 
   manageSuppliers(): void {
-    if (this.isAdmin) {
+    if (this.hasRole('Admin')) {
       this.router.navigate(['/manage-suppliers']);
     } else {
       alert('Access denied. Admins only.');
@@ -73,7 +67,7 @@ export class CarComponent implements OnInit {
   }
 
   addCarListing(): void {
-    if (this.isVendor) {
+    if (this.hasRole('Vendor')) {
       this.router.navigate(['/createcar']);
     } else {
       alert('Access denied. Vendors only.');
@@ -81,7 +75,7 @@ export class CarComponent implements OnInit {
   }
 
   bookCar(carId: number): void {
-    if (this.isCustomer) {
+    if (this.hasRole('Customer')) {
       this.router.navigate(['/book', carId]);
     } else {
       alert('Access denied. Customers only.');
@@ -89,7 +83,7 @@ export class CarComponent implements OnInit {
   }
 
   editCar(id: number): void {
-    if (this.isAdmin || this.isVendor) {
+    if (this.hasRole('Admin') || this.hasRole('Vendor')) {
       this.router.navigate(['/createcar', id]); // Adjust the route as needed
     } else {
       alert('Access denied. Admins and Vendors only.');
@@ -97,7 +91,7 @@ export class CarComponent implements OnInit {
   }
 
   deleteCar(carId: number): void {
-    if (this.isAdmin || this.isVendor) {
+    if (this.hasRole('Admin') || this.hasRole('Vendor')) {
       if (confirm('Are you sure you want to delete this car?')) {
         this.carService.deleteCar(carId).subscribe(() => {
           this.loadCars();

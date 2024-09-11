@@ -247,6 +247,7 @@ namespace CRCQRS.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     VendorId = table.Column<long>(type: "bigint", nullable: false),
                     Model = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
                     CarName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Rentalprice = table.Column<int>(type: "int", nullable: false),
                     IsAvailable = table.Column<bool>(type: "bit", nullable: false)
